@@ -19,7 +19,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Visual\" />
-    <Folder Include="Data\" />
+    <Compile Update="Visual\TodayTametable.xaml.cs">
+      <DependentUpon>TodayTametable.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Visual\TodayTametable.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
