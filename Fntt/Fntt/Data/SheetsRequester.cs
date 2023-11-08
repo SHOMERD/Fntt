@@ -14,13 +14,39 @@ using Xamarin.Forms;
 using SQLite;
 
 
+////////////////////////////////////////////////////////////////////////////
+///
+/// 
+/// 
+/// !!!!!!!!!!!!!!!!!!интернет обернуть в Try!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/// 
+/// 
+/// 
+////////////////////////////////////////////////////////////////////////////
+
+
+
 namespace Fntt.Data
 {
-    internal class SheetsRequester
+    public class SheetsRequester
     {
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         static string ApplicationName = "Fntt";
-        public Google.Apis.Sheets.v4.Data.Spreadsheet Spreadsheet { get; private set; }
+
+        String spreadsheetId = "1FiMov0r4UUDKT6A56NWMImpoUakDC2YDevgaOpJQ7Qc";
+        SheetsService sheetsService;
+
+        public Google.Apis.Sheets.v4.Data.Spreadsheet spreadsheet { get; private set; }
+
+        public List<ValueRange> valueRanges;
+
+
+        public SheetsRequester()
+        {
+            IsDataCurrent();
+
+        }
+
 
 
         public bool IsDataCurrent()
@@ -38,8 +64,10 @@ namespace Fntt.Data
                 }
                 else
                 {
-                    Spreadsheet = spreadsheetRespone;
+                    spreadsheet = spreadsheetRespone;
                     App.Current.Properties["spreadSheetCash"] = spreadsheetRespone;
+
+
                     return true;
                 }
 
@@ -47,6 +75,8 @@ namespace Fntt.Data
 
             return false;
         }
+
+        
 
 
 
@@ -71,8 +101,11 @@ namespace Fntt.Data
                     Console.WriteLine("Credential file saved to: " + credPath);
                 }
 
+
+
+
                 // Create Google Sheets API service.
-                var service = new SheetsService(new BaseClientService.Initializer
+                sheetsService = new SheetsService(new BaseClientService.Initializer
                 {
                     HttpClientInitializer = credential,
                     ApplicationName = ApplicationName
@@ -81,8 +114,8 @@ namespace Fntt.Data
                 // Define request parameters.
                 String spreadsheetId = "1FiMov0r4UUDKT6A56NWMImpoUakDC2YDevgaOpJQ7Qc";
 
-                SpreadsheetsResource.GetRequest request =                                                             
-                    service.Spreadsheets.Get(spreadsheetId);
+                SpreadsheetsResource.GetRequest request =
+                    sheetsService.Spreadsheets.Get(spreadsheetId);
 
                 return request.Execute();
             }
@@ -92,8 +125,43 @@ namespace Fntt.Data
             }
         }
 
-        public void 
+        public object[] GetSheetAsObjectArrey(string Title, int NamberOfSheet = -1)
+        {
+            String range;
+            if (!string.IsNullOrEmpty(Title))
+            {
+                range = Title;
+            }
+            else if(NamberOfSheet != -1 && spreadsheet.Sheets.Count > NamberOfSheet)
+            {
+                range = $"{spreadsheet.Sheets[NamberOfSheet].Properties.Title}";
+            }
+            else
+            {
+                return null;
+            }
 
+            SpreadsheetsResource.ValuesResource.GetRequest request2 =
+                sheetsService.Spreadsheets.Values.Get(spreadsheetId, range);
+
+
+            ValueRange response = request2.Execute();
+            
+            return response.Values.ToArray();
+
+        }
+
+
+
+        public List<object[]> GetSheetsValuesAsList()
+        {
+            List<object[]>  RealGigalist = new List<object[]>();
+            for (int i = 0; i < spreadsheet.Sheets.Count; i++)
+            {
+                RealGigalist.Add(GetSheetAsObjectArrey("",i));
+            }
+            return RealGigalist;           ////////////////////////////TOPROPERTIS
+        }
 
 
         public ValueRange RequestToSheets()
