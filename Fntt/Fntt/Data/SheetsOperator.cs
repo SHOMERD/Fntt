@@ -31,11 +31,16 @@ namespace Fntt.Data
         {
             List<string> NamesOfGroups = new List<string>();
 
-
-
             return NamesOfGroups;
         }
 
+        public void OneSheetDecoder(object[] Sheet)
+        {
+            /////////////////////////////////////////////////////////
+
+
+
+        }
 
 
 

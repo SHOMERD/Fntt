@@ -34,11 +34,13 @@ namespace Fntt.Data
         static string ApplicationName = "Fntt";
 
         String spreadsheetId = "1FiMov0r4UUDKT6A56NWMImpoUakDC2YDevgaOpJQ7Qc";
-        SheetsService sheetsService;
+        SheetsService sheetsService {  get; set; }
 
         public Google.Apis.Sheets.v4.Data.Spreadsheet spreadsheet { get; private set; }
 
-        public List<ValueRange> valueRanges;
+        public List<ValueRange> valueRanges {  get; private set; }
+
+        List<object[]> RealGigalist { get; set; }
 
 
         public SheetsRequester()
@@ -66,8 +68,8 @@ namespace Fntt.Data
                 {
                     spreadsheet = spreadsheetRespone;
                     App.Current.Properties["spreadSheetCash"] = spreadsheetRespone;
-
-
+                    GetSheetsValuesAsList();
+    
                     return true;
                 }
 
@@ -155,12 +157,17 @@ namespace Fntt.Data
 
         public List<object[]> GetSheetsValuesAsList()
         {
-            List<object[]>  RealGigalist = new List<object[]>();
+            List<object[]>  RealGigalistL = new List<object[]>();
             for (int i = 0; i < spreadsheet.Sheets.Count; i++)
             {
                 RealGigalist.Add(GetSheetAsObjectArrey("",i));
             }
-            return RealGigalist;           ////////////////////////////TOPROPERTIS
+
+
+            App.Current.Properties["AllSheetsCash"] = RealGigalistL;
+            this.RealGigalist = RealGigalistL;
+
+            return RealGigalist;
         }
 
 
@@ -173,8 +180,7 @@ namespace Fntt.Data
                 using (var stream =
                        new FileStream("F:\\C#Progects\\NotMy\\sheets\\SheetsQuickstart\\credentials.json", FileMode.Open, FileAccess.Read))
                 {
-                    /* The file token.json stores the user's access and refresh tokens, and is created
-                     automatically when the authorization flow completes for the first time. */
+                    
                     string credPath = "token.json";
                     credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                         GoogleClientSecrets.FromStream(stream).Secrets,
@@ -185,21 +191,20 @@ namespace Fntt.Data
                     Console.WriteLine("Credential file saved to: " + credPath);
                 }
 
-                // Create Google Sheets API service.
+               
                 var service = new SheetsService(new BaseClientService.Initializer
                 {
                     HttpClientInitializer = credential,
                     ApplicationName = ApplicationName
                 });
 
-                // Define request parameters.
+                
                 String spreadsheetId = "1FiMov0r4UUDKT6A56NWMImpoUakDC2YDevgaOpJQ7Qc";
                 String range = "'4 курс (копия)'";
                 SpreadsheetsResource.ValuesResource.GetRequest request =
                     service.Spreadsheets.Values.Get(spreadsheetId, range);
 
-                // Prints the names and majors of students in a sample spreadsheet:
-                // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+               
 
 
                 ValueRange response = request.Execute();
