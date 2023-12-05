@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fntt.Data;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,6 +11,7 @@ namespace Fntt
         {
             InitializeComponent();
 
+            SheetsRequester sheetsRequester = new SheetsRequester();
             MainPage = new MainPage();
         }
 

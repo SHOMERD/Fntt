@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fntt.Android", "Fntt\Fntt.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fntt.iOS", "Fntt\Fntt.iOS\Fntt.iOS.csproj", "{5EA8CF0B-F27A-4E4F-B31C-9D8ACC85B731}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fntt", "Fntt\Fntt\Fntt.csproj", "{DD761EB6-399D-4D65-A82E-2CF995B945DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fntt", "Fntt\Fntt\Fntt.csproj", "{DD761EB6-399D-4D65-A82E-2CF995B945DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
