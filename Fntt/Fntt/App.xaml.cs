@@ -11,7 +11,7 @@ namespace Fntt
         {
             InitializeComponent();
 
-            SheetsRequester sheetsRequester = new SheetsRequester();
+           // SheetsRequester sheetsRequester = new SheetsRequester();
             MainPage = new MainPage();
         }
 

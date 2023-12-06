@@ -58,6 +58,10 @@ namespace Fntt.Data
 
 
 
+
+
+
+
         public bool IsDataCurrent()
         {
             object spreadSheetCashObject = null;
