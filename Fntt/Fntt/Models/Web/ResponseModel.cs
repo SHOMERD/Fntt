@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Text;
 
-namespace Fntt.Models.Web
-{
-    internal class ResponseModel ///////ответ
-    {
-
-
-
-
-        ResponseModel() { 
-            
-        }
+//namespace Fntt.Models.Web
+//{
+//    internal class ResponseModel ///////ответ
+//    {
+//        public object Response { get; set; }
 
 
-    }
-}
+//    }
+//}
