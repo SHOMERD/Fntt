@@ -3,16 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fntt.Models
+namespace Fntt.Models.Local
 {
-    internal class Teacher
+    internal class Group
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-        public string Name { get; set; }   
-        public List<Lesson> lessons { get; set; }
 
+        public string Name { get; set; }
 
+        List<Lesson> Lessons { get; set; }
 
 
     }

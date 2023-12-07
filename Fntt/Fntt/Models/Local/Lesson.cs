@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fntt.Models
+namespace Fntt.Models.Local
 {
     internal class Lesson
     {
@@ -14,7 +14,7 @@ namespace Fntt.Models
         public Teacher Teacher { get; set; }
         public TimeSpan TimeSpan { get; set; }
 
-        public int DayOfTheWeek {  get; set; }
+        public int DayOfTheWeek { get; set; }
 
     }
 }
