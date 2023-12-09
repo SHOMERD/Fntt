@@ -32,7 +32,7 @@ namespace Fntt.Models.Web
 
 
 
-    class RequestModelConstructorC {
+    class RequestModelConstructorC{
 
 
         public RequestModel RequestModelConstructor(string requesType = null, string sheetName = null, string sheetID = null, object referenceObject = null)
