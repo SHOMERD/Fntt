@@ -6,7 +6,9 @@
     <StackLayout 
         HorizontalOptions="CenterAndExpand"
         VerticalOptions="CenterAndExpand"    >
+        <Entry x:Name="t" Text="1" ></Entry>
         <Label x:Name="SenterText" Text="(0> __ (0>"></Label>
+        <Button Clicked="Button_Clicked" ></Button>
     </StackLayout>
     
     

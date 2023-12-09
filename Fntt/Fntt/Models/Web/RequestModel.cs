@@ -7,7 +7,7 @@ using System.Text;
 namespace Fntt.Models.Web
 {
 
-    internal class RequestModel /////////запрос
+    public class RequestModel /////////запрос
     {
         public string requesType { get; set; }
         public string sheetName { get; set; }
@@ -32,10 +32,14 @@ namespace Fntt.Models.Web
 
 
 
-    class RequestModelConstructorC{
-
-
-        public RequestModel RequestModelConstructor(string requesType = null, string sheetName = null, string sheetID = null, object referenceObject = null)
+    public class RequestModelConstructorC
+    {
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <param name=RequesTypeDictionari.requesTypeDictionari></param>
+        /// <returns></returns>
+        public static RequestModel RequestModelConstructor(string requesType = null, string sheetName = null, string sheetID = null, object referenceObject = null)
         {
             RequestModel requestModel = new RequestModel()
             {

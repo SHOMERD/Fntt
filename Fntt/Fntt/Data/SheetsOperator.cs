@@ -9,38 +9,38 @@ namespace Fntt.Data
 {
     public class SheetsOperator
     {
-        SheetsRequester sheetsRequester;
+        //SheetsRequester sheetsRequester;
 
-        public SheetsOperator(SheetsRequester sheetsRequester)
-        {
-            this.sheetsRequester = sheetsRequester;
-        }
+        //public SheetsOperator(SheetsRequester sheetsRequester)
+        //{
+        //    this.sheetsRequester = sheetsRequester;
+        //}
 
-        public string[] GetSheetsNames()
-        {
-            string[] Titles = new string[sheetsRequester.spreadsheet.Sheets.Count];
-            for (int i = 0; i < Titles.Length; i++)
-            {
-                Titles[i] = sheetsRequester.spreadsheet.Sheets[i].Properties.Title;
-            }
+        ////public string[] GetSheetsNames()
+        ////{
+        ////    string[] Titles = new string[sheetsRequester.];
+        ////    for (int i = 0; i < Titles.Length; i++)
+        ////    {
+        ////        Titles[i] = sheetsRequester.allSheets.;
+        ////    }
 
-            return Titles;
-        }
+        ////    return Titles;
+        ////}
 
-        public List<string> GetNamesOfGroupsFromSheet()
-        {
-            List<string> NamesOfGroups = new List<string>();
+        //public List<string> GetNamesOfGroupsFromSheet()
+        //{
+        //    List<string> NamesOfGroups = new List<string>();
 
-            return NamesOfGroups;
-        }
+        //    return NamesOfGroups;
+        //}
 
-        public void OneSheetDecoder(object[] Sheet)
-        {
-            /////////////////////////////////////////////////////////
+        //public void OneSheetDecoder(object[] Sheet)
+        //{
+        //    /////////////////////////////////////////////////////////
 
 
 
-        }
+        //}
 
 
 
