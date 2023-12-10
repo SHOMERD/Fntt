@@ -6,7 +6,7 @@ namespace Fntt.Models.Web
 {
 
     // Root myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(myJsonResponse);
-    internal class ResponseModel ///////ответ
+    public class ResponseModel ///////ответ
     {
         
         public string name { get; set; }

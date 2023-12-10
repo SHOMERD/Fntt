@@ -16,16 +16,6 @@ using static Google.Apis.Requests.BatchRequest;
 using System.Linq;
 
 
-////////////////////////////////////////////////////////////////////////////
-///
-/// 
-/// 
-/// !!!!!!!!!!!!!!!!!!интернет обернуть в Try!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-/// 
-/// 
-/// 
-////////////////////////////////////////////////////////////////////////////
-
 
 
 namespace Fntt.Data
@@ -40,36 +30,37 @@ namespace Fntt.Data
 
         public SheetsRequester()
         {
-            
+            UpdateData();
 
 
         }
 
 
-        public void chec()
+        public void СhecData()
         {
-            IsDataCurrent();
+            UpdateData();
         }
 
 
-        public async Task<object> SheetsRequeste(string requesType = null, string sheetName = null, string sheetID = null, object referenceObject = null)
+        public async Task<List<ResponseModel>> SheetsRequeste(string requesType = null, string sheetName = null, string sheetID = null, object referenceObject = null)
         {
 
             HttpClient client = new HttpClient();
             string uri = "https://script.google.com/macros/s/AKfycbxNOFVcKTe3j9qzNaQIT7AY5dSVad-kro7nW96jD8nsfMLrkFosNyDrwATPAu38sZVX/exec";
 
-            string jsonString = JsonConvert.SerializeObject(RequestModelConstructorC.RequestModelConstructor(requesType, sheetName, sheetID, referenceObject));
-            HttpContent requestContent = new StringContent(jsonString);
+            var jsonString = JsonConvert.SerializeObject(RequestModelConstructorC.RequestModelConstructor(requesType, sheetName, sheetID, referenceObject));
+            var requestContent = new StringContent(jsonString);
            
             var result = await client.PostAsync(uri, requestContent);
-            string resultContent = await result.Content.ReadAsStringAsync();
-            object response = JsonConvert.DeserializeObject<object>(resultContent);
+            var resultContent = await result.Content.ReadAsStringAsync();
+            List<ResponseModel> response = JsonConvert.DeserializeObject<List<ResponseModel>>(resultContent);
+
 
             return response;
         }
 
 
-        public List<string> GetSheetsNamesFromGoogle()
+        public async Task<List<string>> GetSheetsNamesFromGoogle()
         {
             string strings = SheetsRequeste("1").ToString();
             allSheetsNames = strings.Split(' ').ToList<string>();
@@ -80,28 +71,45 @@ namespace Fntt.Data
 
 
 
-        public bool IsDataCurrent()
+        public async Task UpdateData()
+        {
+            object sheetRespone = await SheetsRequeste("0");
+            allSheets = sheetRespone;
+            App.Current.Properties["AllSheetsCash"] = sheetRespone; 
+
+
+        }
+
+
+
+
+
+        public async Task<bool> IsDataCurrent()
         {
             object sheetCashObject = null;
             App.Current.Properties.TryGetValue("AllSheetsCash", out sheetCashObject);
 
-            object sheetRespone = SheetsRequeste("0", null, null , sheetCashObject);
+            object sheetRespone = await SheetsRequeste("0", null, null, sheetCashObject);
+
 
             if (sheetRespone.ToString() != "true")
             {
                 allSheets = sheetRespone;
                 App.Current.Properties["AllSheetsCash"] = sheetRespone;
                 return true;
- 
+
             }
-            else if (sheetRespone == null )
-            { 
+            else if (sheetRespone == null)
+            {
                 return false;
             }
             return false;
         }
 
-        public object GetSheetFromGoogle(string Title, int NamberOfSheet = -1)
+
+
+
+        public async Task<object> GetSheetFromGoogle(string Title, int NamberOfSheet = -1)
         {
             object response = null;
             
