@@ -22,28 +22,12 @@ using System.Net.Http.Headers;
 
 namespace Fntt
 {
-
-
-    public class Model
-    {
-        public string a { get; set; }
-    }
-
-
     public partial class MainPage : ContentPage
     {
-        SheetsRequester sheetsRequester;
-
         public MainPage()
-        {
-
-            sheetsRequester = new SheetsRequester();
+        {   
             InitializeComponent();
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-            sheetsRequester.chec();
-        }
     }
 }

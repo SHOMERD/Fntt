@@ -3,5 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Fntt.Visual.TodayTametable">
 
+    <ContentPage.ToolbarItems>
+
+        <ToolbarItem x:Name="Day"
+                    Text="Чтото работает неправельно" 
+                     />
+        <ToolbarItem/>
+
+        <ToolbarItem Text="❮O❯"
+                    Clicked="ShouAll"/>
+
+
+        <ToolbarItem Text="+"
+                    />
+    </ContentPage.ToolbarItems>
+
+
+
+    <ListView x:Name="listView"
+              Margin="20"
+              ItemSelected="OnListItemSelected">
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Vertical">
+                        <StackLayout Margin="0,0,0,0"
+                                 Orientation="Horizontal"
+                                 HorizontalOptions="FillAndExpand">
+                            <Label Text="{Binding Text}"
+                               VerticalTextAlignment="Center"
+                               HorizontalOptions="StartAndExpand" />
+                            <StackLayout Orientation ="Horizontal">
+                                <Label Text="{Binding TimeString}"
+                                VerticalTextAlignment="Center"
+                                HorizontalOptions="Center"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
+
 </ContentPage>
     
