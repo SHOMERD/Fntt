@@ -1,8 +1,7 @@
 ﻿using Fntt.Data;
 using System;
-using Microsoft.Maui.Controls.Xaml;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Fntt
 {
