@@ -13,7 +13,21 @@ namespace Fntt
         {
             InitializeComponent();
 
-            TodayTametable d = new TodayTametable( null,(int)DateTime.Now.DayOfWeek);
+            SheetsOperator sheetsOperator = new SheetsOperator();
+            int userStatus = SheetsOperator.CheckUser();
+            if (userStatus == -1)
+            {
+                MainPage = new UserForm();
+            }
+            else
+            {
+
+            }
+
+
+
+
+            TodayTametable d = new TodayTametable(sheetsOperator, (int)DateTime.Now.DayOfWeek);
             CarouselPage CP = new CarouselPage();
             CP.Children.Add(new Minus1());
             CP.Children.Add(d);

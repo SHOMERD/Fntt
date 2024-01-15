@@ -17,9 +17,8 @@ namespace Fntt.Visual
             InitializeComponent();
             this.CanShouAll = ShouAll;
             DayOfTheWeek = l;
-
-
         }
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();

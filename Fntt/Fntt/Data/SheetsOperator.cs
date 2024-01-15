@@ -19,8 +19,8 @@ namespace Fntt.Data
         public SheetsOperator()
         {
             sheetsRequester = new SheetsRequester();
-
-
+            bool userExists = UploudeUser();
+            
             //определить коректность данных aktiveCourse, user, activeGroup
 
 
@@ -28,10 +28,47 @@ namespace Fntt.Data
 
         }
 
-        public List<String> GetGrupsNames() 
+
+        private bool UploudeUser()
         {
-            return null;
+            object emptyUser = null;
+            App.Current.Properties.TryGetValue("UserData", out emptyUser);
+            YouAre youAre = (YouAre)emptyUser;
+            if (youAre != null || !string.IsNullOrEmpty(youAre.Course) || !string.IsNullOrEmpty(youAre.Group)) { return false; }
+            user = youAre;
+            return true;
         }
+
+        public static int CheckUser()
+        {
+            object emptyUser = null;
+            App.Current.Properties.TryGetValue("UserData", out emptyUser);
+            YouAre youAre = (YouAre)emptyUser;
+            if (youAre != null) { return -1; }
+            if (youAre.UsetType == 0)
+            {
+                if (string.IsNullOrEmpty(youAre.Course) || string.IsNullOrEmpty(youAre.Group) ) { return -1; }
+            }
+            if (youAre.UsetType == 1 && string.IsNullOrEmpty(youAre.Name)) { return -1; } 
+            return youAre.UsetType;
+
+        }
+
+
+
+        public List<String> GetGrupsNames()
+        {
+            List<String> grupsNames = new List<String>();
+            for (int i = 1; i < aktiveCourse.timetable[0].Count; i++)
+            {
+                if (!string.IsNullOrEmpty(aktiveCourse.timetable[0][i].ToString()))
+                {
+                    grupsNames.Add(aktiveCourse.timetable[0][i].ToString());
+                } 
+            }
+            return grupsNames;
+        }
+
 
         public List <String> GetСourseNames() 
         {
@@ -133,31 +170,13 @@ namespace Fntt.Data
         }
 
 
-        public bool CheckData()
-        {
-            return false;
-        }
-
-
-
-
-
         public List<Lesson> GetWeekLesons()
         {
-            if (!CheckData())
-            {
-                return new List<Lesson>() { new Lesson() { Name = "Чтото не так" } };
-            }
-
             return activeGroup.Lessons;
         }
 
         public List<Lesson> GetDayLesons(int Day)
         {
-            if (!CheckData())
-            {
-                return new List<Lesson>() { new Lesson() { Name = "Чтото не так" } };
-            }
 
             List<Lesson> lessons = new List<Lesson>();
             for (int i = 0; i < activeGroup.Lessons.Count; i++)

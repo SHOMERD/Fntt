@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Fntt.Visual.UserForm">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="FillAndExpand"
+                     VerticalOptions="CenterAndExpand">
+            
+            <Label Text="Tребуется определиться в себе"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                   FontSize="Large"
+                   />
+            <Label></Label>
+            <Label></Label>
+            <Label></Label>
+
+
+            <StackLayout  x:Name="UserType">
+                <Picker  x:Name = "UserTypePicker" Title="Тип пользователя">
+                    <Picker.Items>
+                        <x:String>Учитель</x:String>
+                        <x:String>Ученик</x:String>
+                    </Picker.Items>
+                </Picker>
+            </StackLayout>
+
+            <StackLayout  x:Name="TeacherName" IsVisible="false">
+                <Picker  x:Name = "TeacherNamePicker" Title="Ваше имя(выбор из списка)">
+                    <Picker.Items>
+                    </Picker.Items>
+                </Picker>
+            </StackLayout>
+
+            <StackLayout  x:Name="Course" IsVisible="false">
+                <Picker  x:Name = "CoursePicker" Title="Выбор курса">
+                    <Picker.Items>
+                    </Picker.Items>
+                </Picker>
+            </StackLayout>
+
+
+            <StackLayout  x:Name="Group" IsVisible="false">
+                <Picker  x:Name = "GroupPicker" Title="Выбор группы">
+                    <Picker.Items>
+                    </Picker.Items>
+                </Picker>
+            </StackLayout>
+
+            <Label></Label>
+            <Label></Label>
+            <Label></Label>
+            <Label></Label>
+
+            <StackLayout 
+                VerticalOptions= "End" 
+                HorizontalOptions="Center"
+                IsVisible="false"
+                >
+                <Button Text="Сохранить данные" 
+                        Clicked ="SaveData" 
+                    ></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
