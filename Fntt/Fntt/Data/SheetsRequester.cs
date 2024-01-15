@@ -22,7 +22,8 @@ namespace Fntt.Data
 {
     public class SheetsRequester
     { 
-        public object allSheets { get; set; }
+        public object allSheetsString { get; set; }
+        public List<ResponseModel> allSheets { get; set; }
         public List<string> allSheetsNames { get; set; }
 
 
@@ -74,7 +75,8 @@ namespace Fntt.Data
         public async Task UpdateData()
         {
             object sheetRespone = await SheetsRequeste("0");
-            allSheets = sheetRespone;
+            allSheetsString = sheetRespone;
+            allSheets = JsonConvert.DeserializeObject<List<ResponseModel>>((string)sheetRespone);
             App.Current.Properties["AllSheetsCash"] = sheetRespone; 
 
 
@@ -94,7 +96,7 @@ namespace Fntt.Data
 
             if (sheetRespone.ToString() != "true")
             {
-                allSheets = sheetRespone;
+                allSheetsString = sheetRespone;
                 App.Current.Properties["AllSheetsCash"] = sheetRespone;
                 return true;
 

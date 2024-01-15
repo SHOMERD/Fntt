@@ -1,19 +1,13 @@
-﻿using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Fntt.Models.Local
 {
-    internal class Teacher
+    public class Teacher
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
         public string Name { get; set; }
-        public List<Lesson> lessons { get; set; }
-
-
-
-
+        public List<int> Lessons { get; set; } = new List<int>();
     }
+
 }
