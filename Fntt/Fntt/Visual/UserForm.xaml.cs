@@ -1,28 +1,121 @@
 ﻿using Fntt.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Fntt.Visual
 {
     public partial class UserForm : ContentPage
     {
-        public UserForm()
+        SheetsOperator sheetsOperator;
+        public bool DataExsist;
+
+
+        public UserForm(SheetsOperator sheetsOperator)
         {
             InitializeComponent();
+            this.sheetsOperator = sheetsOperator;
+            DataExsist = false;
+            TrySetData();
 
 
 
+
+
+        }
+
+        public async Task TrySetData()
+        {
+            CoursePicker.Items.Clear();
+            bool Flag = false;
+            while (!Flag)
+            {
+                List<string> courses = sheetsOperator.GetСourseNames();
+                List<string> TeacherNames = sheetsOperator.GetTeacherNames();
+
+                if (courses == null || TeacherNames == null)
+                {
+                    Flag = false;
+                }
+
+                for (int i = 0; i < courses.Count; i++)
+                {
+                    CoursePicker.Items.Add(courses[i]);
+                }
+                for (int i = 0; i < TeacherNames.Count; i++)
+                {
+                    TeacherNamePicker.Items.Add(TeacherNames[i]);
+                }
+                DataExsist = true;
+                Flag = true;
+            }
+        }
+
+        public async Task TrySetGroup()
+        {
+            bool Flag = false;
+            while (!Flag)
+            {
+                List<string> Group = sheetsOperator.GetGrupsNames((string)CoursePicker.SelectedItem);
+                if (Group == null) { Flag = false; continue; }
+                for (int i = 0; i < Group.Count; i++)
+                {
+                    GroupPicker.Items.Add(Group[i]);
+                }
+
+                Flag = true;
+            }
         }
 
         private void SaveData(object sender, EventArgs e)
         {
-
+            sheetsOperator.SetUser(UserTypePicker.SelectedIndex, (string)TeacherNamePicker.SelectedItem, (string)CoursePicker.SelectedItem, (string)GroupPicker.SelectedItem);
+            new CarouselCreater(sheetsOperator, (int)DateTime.Now.DayOfWeek);
         }
+
+        private void UserTypePicked(object sender, EventArgs e)
+        {
+            if (!DataExsist)
+            {
+                DisplayAlert("Данных нет", "Данных еще не получены или обрадбатываются", "Подождать");
+            }
+            else
+            {
+                if (UserTypePicker.SelectedIndex == 0)
+                {
+                    Course.IsVisible = false;
+                    Group.IsVisible = false;
+                    TeacherName.IsVisible = true;
+                }
+                else if (UserTypePicker.SelectedIndex == 1)
+                {
+                    TeacherName.IsVisible = false;
+                    Course.IsVisible = true;
+                }
+            }
+        }
+
+        private async void CoursePicked(object sender, EventArgs e)
+        {
+
+            sheetsOperator.SetAktiveСourse((string)CoursePicker.SelectedItem);
+            TrySetGroup();
+
+            Group.IsVisible = true;
+        }
+
+        private void GroupPicked(object sender, EventArgs e)
+        {
+            SaveButton.IsVisible = true;
+        }
+
+        private void TeacherNamePicked(object sender, EventArgs e)
+        {
+            SaveButton.IsVisible = true;
+        }
+
+
     }
 }

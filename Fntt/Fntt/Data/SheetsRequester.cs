@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 using Fntt.Models.Web;
 using static Google.Apis.Requests.BatchRequest;
 using System.Linq;
+using Xamarin.Essentials;
+using Xamarin.Forms;
+using Fntt.Visual;
 
 
 
@@ -26,20 +29,62 @@ namespace Fntt.Data
         public List<ResponseModel> allSheets { get; set; }
         public List<string> allSheetsNames { get; set; }
 
+        //
+        public int dataStatus
+        {
+            get { return DataStatus; }
+            set
+            {
+                DataStatus = value;
+                try
+                {
+                    ((LoadPage)App.Current.MainPage).ChekData(DataStatus);
+                }catch (Exception ex) { }
+            }
+        }
+        int DataStatus;
+
+
+
+        public bool DataAccepted = false;
+        
+
+
 
 
 
         public SheetsRequester()
         {
-            UpdateData();
-
+            DataAccepted = false;
+            dataStatus = -1000;
+            CheckData();
+            
 
         }
 
 
-        public void СhecData()
+
+
+
+        public async void CheckData()
         {
-            UpdateData();
+            var current = Connectivity.NetworkAccess;
+            object sheetCashObject = null;
+
+            if (current == NetworkAccess.Internet)
+            {
+                dataStatus = 0;
+                UpdateData();
+
+            }
+            else if (App.Current.Properties.TryGetValue("AllSheetsCash", out sheetCashObject)) 
+            {
+                dataStatus = 2;
+            }
+            else
+            {   
+                dataStatus = -1;
+            }
         }
 
 
@@ -72,13 +117,13 @@ namespace Fntt.Data
 
 
 
-        public async Task UpdateData()
+        public async Task<bool> UpdateData()
         {
-            object sheetRespone = await SheetsRequeste("0");
-            allSheetsString = sheetRespone;
-            allSheets = JsonConvert.DeserializeObject<List<ResponseModel>>((string)sheetRespone);
-            App.Current.Properties["AllSheetsCash"] = sheetRespone; 
-
+            List<ResponseModel> sheetRespone = await SheetsRequeste("0");
+            allSheets = sheetRespone;
+            App.Current.Properties["AllSheetsCash"] = sheetRespone;
+            dataStatus = 1;
+            return true;
 
         }
 

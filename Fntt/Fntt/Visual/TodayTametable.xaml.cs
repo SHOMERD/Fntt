@@ -1,6 +1,7 @@
 ﻿using System;
 using Fntt.Data;
 using Fntt.Models;
+using Fntt.Visual.BufferPages;
 using Xamarin.Forms;
 
 namespace Fntt.Visual
@@ -12,12 +13,15 @@ namespace Fntt.Visual
         SheetsOperator sheetsOperator;
 
 
-        public TodayTametable(SheetsOperator sheetsOperator, int l, bool ShouAll = false)
+        public TodayTametable(SheetsOperator sheetsOperator, int setedDey, bool ShouAll = false)
         {
-            InitializeComponent();
             this.CanShouAll = ShouAll;
-            DayOfTheWeek = l;
+            DayOfTheWeek = setedDey;
+            InitializeComponent();
+            
         }
+
+      
 
         protected override async void OnAppearing()
         {
@@ -25,36 +29,36 @@ namespace Fntt.Visual
             switch (DayOfTheWeek)
             {
                 case 1:
-                    Day.Text = "Понедельник";
+                    ToolbarString.Text = "Понедельник";
                     break;
                 case 2:
-                    Day.Text = "Вторник";
+                    ToolbarString.Text = "Вторник";
                     break;
                 case 3:
-                    Day.Text = "Среда";
+                    ToolbarString.Text = "Среда";
                     break;
                 case 4:
-                    Day.Text = "Четверг";
+                    ToolbarString.Text = "Четверг";
                     break;
                 case 5:
-                    Day.Text = "Пятница";
+                    ToolbarString.Text = "Пятница";
                     break;
                 case 6:
-                    Day.Text = "Суббота";
+                    ToolbarString.Text = "Суббота";
                     break;
                 case 0:
-                    Day.Text = "Воскресенье";
+                    ToolbarString.Text = "Воскресенье";
                     break;
             }
-            //NotesDB database = await NotesDB.Instance;
-            //if (CanShouAll)
-            //{
-            //    listView.ItemsSource = await database.GetItemsAsync();
-            //}
-            //else
-            //{
-            //    listView.ItemsSource = await database.SortingPendingNotes(DayOfTheWeek);
-            //}
+
+            if (CanShouAll)
+            {
+                listView.ItemsSource = sheetsOperator.GetWeekLesons();
+            }
+            else
+            {
+                //listView.ItemsSource = sheetsOperator.GetDayLesons(DayOfTheWeek);
+            }
 
         }
 

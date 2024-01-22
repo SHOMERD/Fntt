@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Fntt.Models.Local
 {
-    internal class Group
+    public class Group
     {
         public string Name { get; set; }
 

@@ -12,29 +12,9 @@ namespace Fntt
         public App()
         {
             InitializeComponent();
+            MainPage = new LoadPage();
+            ((LoadPage)MainPage).StartLoad(new SheetsOperator());
 
-            SheetsOperator sheetsOperator = new SheetsOperator();
-            int userStatus = SheetsOperator.CheckUser();
-            if (userStatus == -1)
-            {
-                MainPage = new UserForm();
-            }
-            else
-            {
-
-            }
-
-
-
-
-            TodayTametable d = new TodayTametable(sheetsOperator, (int)DateTime.Now.DayOfWeek);
-            CarouselPage CP = new CarouselPage();
-            CP.Children.Add(new Minus1());
-            CP.Children.Add(d);
-            CP.Children.Add(new Plas1());
-            CP.CurrentPage = CP.Children[1];
-
-            MainPage = new NavigationPage(CP);
         }
 
         protected override void OnStart()

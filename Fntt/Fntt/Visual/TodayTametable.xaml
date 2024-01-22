@@ -5,7 +5,7 @@
 
     <ContentPage.ToolbarItems>
 
-        <ToolbarItem x:Name="Day"
+        <ToolbarItem x:Name="ToolbarString"
                     Text="Чтото работает неправельно" 
                      />
         <ToolbarItem/>

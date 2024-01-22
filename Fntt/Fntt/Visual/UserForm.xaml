@@ -17,7 +17,7 @@
 
 
             <StackLayout  x:Name="UserType">
-                <Picker  x:Name = "UserTypePicker" Title="Тип пользователя">
+                <Picker  x:Name = "UserTypePicker" Title="Тип пользователя" SelectedIndexChanged="UserTypePicked">
                     <Picker.Items>
                         <x:String>Учитель</x:String>
                         <x:String>Ученик</x:String>
@@ -26,14 +26,14 @@
             </StackLayout>
 
             <StackLayout  x:Name="TeacherName" IsVisible="false">
-                <Picker  x:Name = "TeacherNamePicker" Title="Ваше имя(выбор из списка)">
+                <Picker  x:Name = "TeacherNamePicker" Title="Ваше имя(выбор из списка)" SelectedIndexChanged ="TeacherNamePicked">
                     <Picker.Items>
                     </Picker.Items>
                 </Picker>
             </StackLayout>
 
             <StackLayout  x:Name="Course" IsVisible="false">
-                <Picker  x:Name = "CoursePicker" Title="Выбор курса">
+                <Picker  x:Name = "CoursePicker" Title="Выбор курса" SelectedIndexChanged="CoursePicked">
                     <Picker.Items>
                     </Picker.Items>
                 </Picker>
@@ -41,7 +41,7 @@
 
 
             <StackLayout  x:Name="Group" IsVisible="false">
-                <Picker  x:Name = "GroupPicker" Title="Выбор группы">
+                <Picker  x:Name = "GroupPicker" Title="Выбор группы" SelectedIndexChanged ="GroupPicked">
                     <Picker.Items>
                     </Picker.Items>
                 </Picker>
@@ -56,9 +56,11 @@
                 VerticalOptions= "End" 
                 HorizontalOptions="Center"
                 IsVisible="false"
+                x:Name="SaveButton"
                 >
                 <Button Text="Сохранить данные" 
                         Clicked ="SaveData" 
+                        BorderColor="AliceBlue"
                     ></Button>
             </StackLayout>
         </StackLayout>
