@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using Fntt.Data;
 using Fntt.Models;
+using Fntt.Models.Local;
 using Fntt.Visual.BufferPages;
 using Xamarin.Forms;
 
@@ -15,13 +18,15 @@ namespace Fntt.Visual
 
         public TodayTametable(SheetsOperator sheetsOperator, int setedDey, bool ShouAll = false)
         {
+            this.sheetsOperator = sheetsOperator;
             this.CanShouAll = ShouAll;
-            DayOfTheWeek = setedDey;
+            DayOfTheWeek = setedDey; 
+            sheetsOperator.SetGrupData();
             InitializeComponent();
-            
+
         }
 
-      
+
 
         protected override async void OnAppearing()
         {
@@ -51,14 +56,17 @@ namespace Fntt.Visual
                     break;
             }
 
+
             if (CanShouAll)
             {
-                listView.ItemsSource = sheetsOperator.GetWeekLesons();
+                listViweData.ItemsSource = sheetsOperator.GetWeekLesons();
             }
             else
             {
-                //listView.ItemsSource = sheetsOperator.GetDayLesons(DayOfTheWeek);
+                listViweData.ItemsSource = sheetsOperator.GetDayLesons(DayOfTheWeek-1);
             }
+
+
 
         }
 

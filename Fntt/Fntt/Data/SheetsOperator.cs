@@ -1,9 +1,11 @@
 ﻿using Fntt.Models.Local;
 using Fntt.Models.Web;
 using Google.Apis.Sheets.v4.Data;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 
 
 
@@ -21,21 +23,34 @@ namespace Fntt.Data
         {
             sheetsRequester = new SheetsRequester();
             bool userExists = UploudeUser();
-            
-            
 
+            ////Проверь даннае, обнави или создай
+            ///
 
 
 
         }
 
 
+        public void SetGrupData()
+        {
+            SetAktiveСourse(user.Course);                   //поменять место вызова
+            SetAktiveGrup(user.Group);
+        }
+
+
+
         private bool UploudeUser()
         {
-            object emptyUser = null;
-            App.Current.Properties.TryGetValue("UserData", out emptyUser);
-            YouAre youAre = (YouAre)emptyUser;
+            YouAre emptyUser;
+            if (!Preferences.ContainsKey("UserData"))
+            {
+                return false;
+            }
+            emptyUser = JsonConvert.DeserializeObject<YouAre>(Preferences.Get("UserData", ""));
+            YouAre youAre = emptyUser;
             if (youAre == null) { return false; }
+            this.user = youAre;
             if (youAre.UsetType == 0)
             {
                 if (string.IsNullOrEmpty(youAre.Course) || string.IsNullOrEmpty(youAre.Group)) { return false; }
@@ -47,16 +62,17 @@ namespace Fntt.Data
 
         public int CheckUser()
         {
-            object emptyUser = null;
-            App.Current.Properties.TryGetValue("UserData", out emptyUser);
-            YouAre youAre = (YouAre)emptyUser;
-            if (youAre == null) { return -1; }
-            if (youAre.UsetType == 0)
+            YouAre emptyUser ;
+            
+            emptyUser = JsonConvert.DeserializeObject<YouAre>(Preferences.Get("UserData", ""));
+
+            if (emptyUser == null) { return -1; }
+            if (emptyUser.UsetType == 0)
             {
-                if (string.IsNullOrEmpty(youAre.Course) || string.IsNullOrEmpty(youAre.Group) ) { return -1; }
+                if (string.IsNullOrEmpty(emptyUser.Course) || string.IsNullOrEmpty(emptyUser.Group) ) { return -1; }
             }
-            if (youAre.UsetType == 1 && string.IsNullOrEmpty(youAre.Name)) { return -1; } 
-            return youAre.UsetType;
+            if (emptyUser.UsetType == 1 && string.IsNullOrEmpty(emptyUser.Name)) { return -1; } 
+            return emptyUser.UsetType;
 
         }
 
@@ -96,8 +112,8 @@ namespace Fntt.Data
                             Name = aktiveCourse.timetable[s][i].ToString(),
                             Teacher = aktiveCourse.timetable[s][i + 1].ToString(),
                             Сlassroom = aktiveCourse.timetable[s][i + 2].ToString(),
-                            StartTime = StingToTimeConvertor(aktiveCourse.timetable[s][1].ToString(), true),
-                            EndTime = StingToTimeConvertor(aktiveCourse.timetable[s][1].ToString(), false),
+                            StartTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][1].ToString(), true),
+                            EndTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][1].ToString(), false),
                             DayOfTheWeek = (s - 2) / 6
                         });
                     }
@@ -150,17 +166,18 @@ namespace Fntt.Data
             user.Name = usetName;
             user.Course = courseName;
             user.Group = groupName;
-
-            App.Current.Properties.Add("UserData", user);
-            object v = App.Current.Properties;
+            this.user = user;
+            Preferences.Set("UserData", JsonConvert.SerializeObject(user));
         }
 
 
         public YouAre GetUserData() 
         {
-            object AreYou = null;
-            App.Current.Properties.TryGetValue("UserData", out AreYou);
-            YouAre youAre = (YouAre)AreYou;
+            YouAre emptyUser;
+
+            emptyUser = JsonConvert.DeserializeObject<YouAre>(Preferences.Get("UserData",null));
+
+            YouAre youAre = (YouAre)emptyUser;
             if (youAre != null && !string.IsNullOrEmpty(youAre.Course) && !string.IsNullOrEmpty(youAre.Group)) 
             {
                 return youAre;
@@ -172,19 +189,27 @@ namespace Fntt.Data
         }
 
 
-        private DateTime StingToTimeConvertor(string stringTime, bool IsFerst)
+        public DateTime SrtingToTimeConvertor(string stringTime, bool IsFerst)
         {
+            int h;
+            int m;
+            DateTime rData = new DateTime();
             if (IsFerst)
             {
-                return new DateTime(0, 0, 0, Convert.ToInt32(stringTime.ToString().Split('-')[0].Split('.')[0]), Convert.ToInt32(stringTime.ToString().Split('-')[0].Split('.')[1]), 0);
+                h = Convert.ToInt32(stringTime.ToString().Split('-')[0].Split('.')[0]);
+                m = Convert.ToInt32(stringTime.ToString().Split('-')[0].Split('.')[1]);
             }
             else
             {
-                return new DateTime(0, 0, 0, Convert.ToInt32(stringTime.ToString().Split('-')[1].Split('.')[0]), Convert.ToInt32(stringTime.ToString().Split('-')[1].Split('.')[1]), 0);
+                h = Convert.ToInt32(stringTime.ToString().Split('-')[1].Split('.')[0]);
+                m = Convert.ToInt32(stringTime.ToString().Split('-')[1].Split('.')[1]);
             }
+            rData = rData.AddHours(h);
+            rData = rData.AddMinutes(m);
+            return rData;
 
-             
         }
+
 
         public List<Lesson> GetWeekLesons()
         {

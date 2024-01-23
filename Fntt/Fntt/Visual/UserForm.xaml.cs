@@ -71,7 +71,7 @@ namespace Fntt.Visual
 
         private void SaveData(object sender, EventArgs e)
         {
-            sheetsOperator.SetUser(UserTypePicker.SelectedIndex, (string)TeacherNamePicker.SelectedItem, (string)CoursePicker.SelectedItem, (string)GroupPicker.SelectedItem);
+            sheetsOperator.SetUser(UserTypePicker.SelectedIndex - 1, (string)TeacherNamePicker.SelectedItem, (string)CoursePicker.SelectedItem, (string)GroupPicker.SelectedItem);
             new CarouselCreater(sheetsOperator, (int)DateTime.Now.DayOfWeek);
         }
 

@@ -20,24 +20,32 @@
 
 
 
-    <ListView x:Name="listView"
+    <ListView  x:Name="listViweData"
               Margin="20"
-              ItemSelected="OnListItemSelected">
-
+              ItemSelected="OnListItemSelected"
+               
+               >
+        
         <ListView.ItemTemplate>
             <DataTemplate>
-                <ViewCell>
+                <ViewCell >
                     <StackLayout Orientation="Vertical">
                         <StackLayout Margin="0,0,0,0"
                                  Orientation="Horizontal"
-                                 HorizontalOptions="FillAndExpand">
-                            <Label Text="{Binding Text}"
+                                 HorizontalOptions="FillAndExpand"
+                                 
+                                     >
+                            
+                            <Label Text="{Binding StartTimeString}"
                                VerticalTextAlignment="Center"
                                HorizontalOptions="StartAndExpand" />
-                            <StackLayout Orientation ="Horizontal">
-                                <Label Text="{Binding TimeString}"
+                            <Label Text="{Binding Name}"
+                               VerticalTextAlignment="Center"
+                               HorizontalOptions="StartAndExpand" />
+                            <Label Text="{Binding Сlassroom}"
                                 VerticalTextAlignment="Center"
                                 HorizontalOptions="Center"/>
+                            <StackLayout Orientation ="Horizontal">
                             </StackLayout>
                         </StackLayout>
                     </StackLayout>

@@ -17,6 +17,7 @@ using System.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Fntt.Visual;
+using Fntt.Models.Local;
 
 
 
@@ -39,6 +40,7 @@ namespace Fntt.Data
                 try
                 {
                     ((LoadPage)App.Current.MainPage).ChekData(DataStatus);
+
                 }catch (Exception ex) { }
             }
         }
@@ -77,7 +79,7 @@ namespace Fntt.Data
                 UpdateData();
 
             }
-            else if (App.Current.Properties.TryGetValue("AllSheetsCash", out sheetCashObject)) 
+            else if (Preferences.ContainsKey("AllSheetsCash")) 
             {
                 dataStatus = 2;
             }
@@ -121,7 +123,7 @@ namespace Fntt.Data
         {
             List<ResponseModel> sheetRespone = await SheetsRequeste("0");
             allSheets = sheetRespone;
-            App.Current.Properties["AllSheetsCash"] = sheetRespone;
+            Preferences.Set("AllSheetsCash", JsonConvert.SerializeObject(sheetRespone));
             dataStatus = 1;
             return true;
 
@@ -133,8 +135,9 @@ namespace Fntt.Data
 
         public async Task<bool> IsDataCurrent()
         {
-            object sheetCashObject = null;
-            App.Current.Properties.TryGetValue("AllSheetsCash", out sheetCashObject);
+            ResponseModel sheetCashObject;
+
+            sheetCashObject = JsonConvert.DeserializeObject<ResponseModel>(Preferences.Get("AllSheetsCash", ""));
 
             object sheetRespone = await SheetsRequeste("0", null, null, sheetCashObject);
 
@@ -142,7 +145,8 @@ namespace Fntt.Data
             if (sheetRespone.ToString() != "true")
             {
                 allSheetsString = sheetRespone;
-                App.Current.Properties["AllSheetsCash"] = sheetRespone;
+
+                Preferences.Set("AllSheetsCash", JsonConvert.SerializeObject(sheetRespone));
                 return true;
 
             }
