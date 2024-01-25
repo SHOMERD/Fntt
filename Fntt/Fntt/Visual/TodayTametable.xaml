@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Fntt.Visual.TodayTametable">
+             x:Class="Fntt.Visual.TodayTametable"
+             
+             >
 
     <ContentPage.ToolbarItems>
 
@@ -21,7 +23,7 @@
 
 
     <ListView  x:Name="listViweData"
-              Margin="20"
+              Margin="10"
               ItemSelected="OnListItemSelected"
                
                >
@@ -30,24 +32,32 @@
             <DataTemplate>
                 <ViewCell >
                     <StackLayout Orientation="Vertical">
+                        <Frame  BorderColor="Salmon"
+                                Padding="10"
+                            >
                         <StackLayout Margin="0,0,0,0"
                                  Orientation="Horizontal"
                                  HorizontalOptions="FillAndExpand"
-                                 
                                      >
                             
                             <Label Text="{Binding StartTimeString}"
                                VerticalTextAlignment="Center"
-                               HorizontalOptions="StartAndExpand" />
-                            <Label Text="{Binding Name}"
+                               HorizontalOptions="StartAndExpand" 
+                                   TextColor="Navy"/>
+                                <Label Text="{Binding TransformedName}"
                                VerticalTextAlignment="Center"
-                               HorizontalOptions="StartAndExpand" />
-                            <Label Text="{Binding Сlassroom}"
+                               HorizontalOptions="CenterAndExpand" 
+                                   TextColor="Navy"
+                                   MaxLines="1"/>
+                                <Label Text="{Binding TransformedСlassroom}"
                                 VerticalTextAlignment="Center"
-                                HorizontalOptions="Center"/>
+                                HorizontalOptions="EndAndExpand"
+                                   TextColor="Navy"
+                                   />
                             <StackLayout Orientation ="Horizontal">
                             </StackLayout>
                         </StackLayout>
+                        </Frame>
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>

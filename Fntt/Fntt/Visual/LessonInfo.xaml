@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Fntt.Visual.LessonInfo">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="LessonName"
+                Text=""
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="TecherName"
+                Text=""
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand" />  
+            <Button x:Name="LessonСlassroom"
+                Text="Teacher"
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand" 
+                   Clicked="LessonСlassroom_Clicked"/>
+            <Label x:Name="LessonTimeString"
+                Text=""
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand" />
+
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

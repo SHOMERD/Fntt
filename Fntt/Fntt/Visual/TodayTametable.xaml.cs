@@ -6,6 +6,7 @@ using Fntt.Models;
 using Fntt.Models.Local;
 using Fntt.Visual.BufferPages;
 using Xamarin.Forms;
+using Xamarin.Forms.Shapes;
 
 namespace Fntt.Visual
 {
@@ -56,17 +57,16 @@ namespace Fntt.Visual
                     break;
             }
 
+           
 
             if (CanShouAll)
             {
-                listViweData.ItemsSource = sheetsOperator.GetWeekLesons();
+                listViweData.ItemsSource = TrasformeLesons( sheetsOperator.GetWeekLesons());
             }
             else
             {
-                listViweData.ItemsSource = sheetsOperator.GetDayLesons(DayOfTheWeek-1);
+                listViweData.ItemsSource = TrasformeLesons(sheetsOperator.GetDayLesons(DayOfTheWeek - 1));
             }
-
-
 
         }
 
@@ -79,6 +79,13 @@ namespace Fntt.Visual
         {
             if (e.SelectedItem != null)
             {
+                try
+                {
+                    await Navigation.PushAsync(new LessonInfo((Lesson)e.SelectedItem));
+                }
+                catch (Exception)
+                {
+                }
                 
             }
         }
@@ -103,6 +110,30 @@ namespace Fntt.Visual
             DayOfTheWeek = (DayOfTheWeek + 7) % 7;
             OnAppearing();
         }
+
+        private List<Lesson> TrasformeLesons(List<Lesson> lessons)
+        {
+            for (int i = 0; i < lessons.Count; i++)
+            {
+                if (lessons[i].Name.Length > 34)
+                {
+                    lessons[i].TransformedName = lessons[i].Name.Substring(0, 31) + "...";
+                }
+                else
+                {
+                    lessons[i].TransformedName = lessons[i].Name;
+                }
+                try
+                {
+                    new Uri(lessons[i].Сlassroom);
+                    lessons[i].TransformedСlassroom = "-->";
+                }
+                catch (Exception) { lessons[i].TransformedСlassroom = lessons[i].Сlassroom; }
+            }
+            return lessons;
+        }
+
+
 
     }
 }
