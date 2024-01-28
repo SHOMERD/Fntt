@@ -20,6 +20,7 @@ namespace Fntt.Visual
             Lesson = lesson;
             LessonName.Text = lesson.Name;
             TecherName.Text = Lesson.Teacher;
+            GroupName.Text = lesson.GroupName;
             LessonСlassroom.Text = lesson.Сlassroom;
             LessonTimeString.Text = lesson.StartTimeString + " - " + lesson.EndTimeString; 
 

@@ -27,10 +27,9 @@ namespace Fntt.Data
     public class SheetsRequester
     { 
         public object allSheetsString { get; set; }
-        public List<ResponseModel> allSheets { get; set; }
-        public List<string> allSheetsNames { get; set; }
 
-        //
+        public List<ResponseModel> allSheets {  get; set; }
+        public List<string> allSheetsNames { get; set; }
         public int dataStatus
         {
             get { return DataStatus; }
@@ -45,9 +44,6 @@ namespace Fntt.Data
             }
         }
         int DataStatus;
-
-
-
         public bool DataAccepted = false;
         
 
@@ -64,14 +60,9 @@ namespace Fntt.Data
 
         }
 
-
-
-
-
         public async void CheckData()
         {
             var current = Connectivity.NetworkAccess;
-            object sheetCashObject = null;
 
             if (current == NetworkAccess.Internet)
             {

@@ -78,7 +78,7 @@ namespace Fntt.Visual
             }
             else if (userStatus == 1 || userStatus == 0)
             {
-                new CarouselCreater(sheetsOperator, (int)DateTime.Now.DayOfWeek);
+                 new CarouselCreater(sheetsOperator, (int)DateTime.Now.DayOfWeek);
             }
         }
 

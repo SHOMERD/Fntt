@@ -11,7 +11,11 @@
             <Label x:Name="TecherName"
                 Text=""
                 VerticalOptions="Center" 
-                HorizontalOptions="CenterAndExpand" />  
+                HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="GroupName"
+                Text=""
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand" />
             <Button x:Name="LessonСlassroom"
                 Text="Teacher"
                 VerticalOptions="Center" 

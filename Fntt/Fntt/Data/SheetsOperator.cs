@@ -1,10 +1,13 @@
 ﻿using Fntt.Models.Local;
 using Fntt.Models.Web;
+using Fntt.Visual;
 using Google.Apis.Sheets.v4.Data;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 
@@ -15,7 +18,7 @@ namespace Fntt.Data
     {
         public SheetsRequester sheetsRequester {  get; set; }
         public ResponseModel aktiveCourse { get; set; }
-        public Group activeGroup { get; set; }
+        public DisplayedData activeTimetable { get; set; }
         public YouAre user { get; set; }
         public bool DataExsist { get; set; }
 
@@ -24,12 +27,38 @@ namespace Fntt.Data
             sheetsRequester = new SheetsRequester();
             bool userExists = UploudeUser();
 
-            ////Проверь даннае, обнави или создай
-            ///
-
 
 
         }
+        
+
+
+        public async void SetData()
+        {
+            if (user.UsetType == 0)
+            {
+                if ((await GetСourseNames()).Contains(user.Course) && (await GetGrupsNames(user.Course)).Contains(user.Group))
+                {
+                    SetAktiveСourse(user.Course);
+                    SetAktiveGrup(user.Group);
+                }
+                else
+                {
+                    Preferences.Clear("UserData");
+                    App.Current.MainPage = new UserForm(this);
+                }
+            }
+
+            if (user.UsetType == 1)
+            {
+                if ((await GetTeacherNames()).Contains(user.Name))
+                {
+                    SetTeacherTimetable(user.Name);     
+                }
+
+            }
+        }
+
 
 
         public void SetGrupData()
@@ -37,7 +66,6 @@ namespace Fntt.Data
             SetAktiveСourse(user.Course);                   //поменять место вызова
             SetAktiveGrup(user.Group);
         }
-
 
 
         private bool UploudeUser()
@@ -93,13 +121,13 @@ namespace Fntt.Data
 
         public bool SetAktiveGrup(string courseName)
         {
-            Group group = null;
+            DisplayedData group = null;
 
             for (int i = 1; i < aktiveCourse.timetable[0].Count; i++)
             {
                 if (aktiveCourse.timetable[0][i].ToString() == user.Group)
                 {
-                    group = new Group()
+                    group = new DisplayedData()
                     {
                         Name = user.Group,
                         Lessons = new List<Lesson>() { }
@@ -117,17 +145,17 @@ namespace Fntt.Data
                             DayOfTheWeek = (s - 2) / 6
                         });
                     }
-                    activeGroup = group;
+                    activeTimetable = group;
                     return true;
                 }
             }
-            activeGroup = null;
+            activeTimetable = null;
             return false;
         }
 
 
 
-        public List<String> GetGrupsNames(string CourseName)
+        public async Task<List<String>> GetGrupsNames(string CourseName)
         {
             List<String> grupsNames = new List<String>();
             
@@ -144,7 +172,7 @@ namespace Fntt.Data
         }
 
 
-        public List<String> GetСourseNames() 
+        public async Task<List<String>> GetСourseNames() 
         {
             try
             {
@@ -213,18 +241,18 @@ namespace Fntt.Data
 
         public List<Lesson> GetWeekLesons()
         {
-            return activeGroup.Lessons;
+            return activeTimetable.Lessons;
         }
 
         public List<Lesson> GetDayLesons(int Day)
         {
 
             List<Lesson> lessons = new List<Lesson>();
-            for (int i = 0; i < activeGroup.Lessons.Count; i++)
+            for (int i = 0; i < activeTimetable.Lessons.Count; i++)
             {
-                if (activeGroup.Lessons[i].DayOfTheWeek == Day)
+                if (activeTimetable.Lessons[i].DayOfTheWeek == Day)
                 {
-                    lessons.Add(activeGroup.Lessons[i]);
+                    lessons.Add(activeTimetable.Lessons[i]);
                 }
             }
 
@@ -232,14 +260,105 @@ namespace Fntt.Data
 
         }
 
-        public List<string> GetTeacherNames()
+        public async Task<List<string>> GetTeacherNames()
         {
-            try
-            {
-                return new List<string>() { "Андрей" };
-            }
-            catch { return null; }
+            List<ResponseModel> allSheets = sheetsRequester.allSheets;
+            List<string> teachersName = new List<string>();
 
+
+            for (int d = 0; d < allSheets.Count; d++)
+            {
+                for (int i = 1; i < allSheets[d].timetable[0].Count; i++)
+                {
+                    if (!string.IsNullOrEmpty(allSheets[d].timetable[0][i].ToString()))
+                    {
+                        for (int s = 2; s < allSheets[d].timetable.Count; s++)
+                        {
+
+                            if (!string.IsNullOrEmpty(allSheets[d].timetable[s][i + 1].ToString()) && !teachersName.Contains(allSheets[d].timetable[s][i + 1].ToString()))
+                            {
+                                teachersName.Add(allSheets[d].timetable[s][i + 1].ToString());
+                            }
+
+                        }
+                    }
+
+                }
+            }
+            teachersName.Sort();
+            return teachersName;
+        }
+
+        public void SetTeacherTimetable(string teacherName)
+        {
+            List<ResponseModel> allSheets = sheetsRequester.allSheets;
+            DisplayedData teacherTimetable = new DisplayedData()
+            {
+                Lessons = new List<Lesson>() { }
+            };
+            teacherTimetable.Name = teacherName;
+
+            for (int d = 0; d < allSheets.Count; d++)
+            {
+                for (int i = 1; i < allSheets[d].timetable[0].Count; i++)
+                {
+                    if (!string.IsNullOrEmpty(allSheets[d].timetable[0][i].ToString()))
+                    {
+                        for (int s = 2; s < allSheets[d].timetable.Count; s++)
+                        {
+                            if (allSheets[d].timetable[s][i + 1].ToString().Contains(teacherName))
+                            {
+                                teacherTimetable.Lessons.Add(new Lesson()
+                                {
+                                    Name = allSheets[d].timetable[s][i].ToString(),
+                                    GroupName = allSheets[d].timetable[0][i].ToString(),
+                                    Teacher = allSheets[d].timetable[s][i + 1].ToString(),
+                                    Сlassroom = allSheets[d].timetable[s][i + 2].ToString(),
+                                    StartTime = SrtingToTimeConvertor(allSheets[d].timetable[s][1].ToString(), true),
+                                    EndTime = SrtingToTimeConvertor(allSheets[d].timetable[s][1].ToString(), false),
+                                    DayOfTheWeek = (s - 2) / 6
+                                });
+                            }
+
+                        }
+                    }
+
+                }
+            }
+
+
+
+            activeTimetable = LessonShaker(teacherTimetable);
+
+        }
+
+        public DisplayedData LessonShaker(DisplayedData data)
+        { 
+            List<Lesson> sorted = data.Lessons.OrderBy(x => x.StartTime).ToList();
+
+            List<Lesson> lessons = new List<Lesson>();
+            lessons.Add(sorted[0]);
+            for (int i = 1; i < sorted.Count; i++)
+            {
+                bool Flag = true;
+                for (int s = 0; s < lessons.Count; s++)
+                {
+                    if (lessons[s].Name == sorted[i].Name && lessons[s].StartTime == sorted[i].StartTime && lessons[s].Сlassroom == sorted[i].Сlassroom && lessons[s].DayOfTheWeek == sorted[i].DayOfTheWeek)
+                    {
+                        lessons[s].GroupName = lessons[s].GroupName + " и " +sorted[i].GroupName;
+                        Flag = false;
+                    }
+                }
+                if (Flag)
+                {
+                    lessons.Add(sorted[i]);
+                }
+                
+            }
+            data.Lessons = lessons;
+
+
+            return data;
         }
 
 

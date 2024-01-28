@@ -29,28 +29,18 @@ namespace Fntt.Visual
         public async Task TrySetData()
         {
             CoursePicker.Items.Clear();
-            bool Flag = false;
-            while (!Flag)
+            List<string> courses = await sheetsOperator.GetСourseNames();
+            List<string> TeacherNames = await sheetsOperator.GetTeacherNames();
+            for (int i = 0; i < courses.Count; i++)
             {
-                List<string> courses = sheetsOperator.GetСourseNames();
-                List<string> TeacherNames = sheetsOperator.GetTeacherNames();
-
-                if (courses == null || TeacherNames == null)
-                {
-                    Flag = false;
-                }
-
-                for (int i = 0; i < courses.Count; i++)
-                {
-                    CoursePicker.Items.Add(courses[i]);
-                }
-                for (int i = 0; i < TeacherNames.Count; i++)
-                {
-                    TeacherNamePicker.Items.Add(TeacherNames[i]);
-                }
-                DataExsist = true;
-                Flag = true;
+                CoursePicker.Items.Add(courses[i]);
             }
+            for (int i = 0; i < TeacherNames.Count; i++)
+            {
+                TeacherNamePicker.Items.Add(TeacherNames[i]);
+            }
+            DataExsist = true;
+
         }
 
         public async Task TrySetGroup()
@@ -58,7 +48,7 @@ namespace Fntt.Visual
             bool Flag = false;
             while (!Flag)
             {
-                List<string> Group = sheetsOperator.GetGrupsNames((string)CoursePicker.SelectedItem);
+                List<string> Group = await sheetsOperator.GetGrupsNames((string)CoursePicker.SelectedItem);
                 if (Group == null) { Flag = false; continue; }
                 for (int i = 0; i < Group.Count; i++)
                 {
@@ -71,7 +61,7 @@ namespace Fntt.Visual
 
         private void SaveData(object sender, EventArgs e)
         {
-            sheetsOperator.SetUser(UserTypePicker.SelectedIndex - 1, (string)TeacherNamePicker.SelectedItem, (string)CoursePicker.SelectedItem, (string)GroupPicker.SelectedItem);
+            sheetsOperator.SetUser(UserTypePicker.SelectedIndex, (string)TeacherNamePicker.SelectedItem, (string)CoursePicker.SelectedItem, (string)GroupPicker.SelectedItem);
             new CarouselCreater(sheetsOperator, (int)DateTime.Now.DayOfWeek);
         }
 
@@ -85,14 +75,14 @@ namespace Fntt.Visual
             {
                 if (UserTypePicker.SelectedIndex == 0)
                 {
-                    Course.IsVisible = false;
-                    Group.IsVisible = false;
-                    TeacherName.IsVisible = true;
+                    TeacherName.IsVisible = false;
+                    Course.IsVisible = true;
                 }
                 else if (UserTypePicker.SelectedIndex == 1)
                 {
-                    TeacherName.IsVisible = false;
-                    Course.IsVisible = true;
+                    Course.IsVisible = false;
+                    Group.IsVisible = false;
+                    TeacherName.IsVisible = true;
                 }
             }
         }

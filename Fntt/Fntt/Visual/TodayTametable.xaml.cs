@@ -22,7 +22,7 @@ namespace Fntt.Visual
             this.sheetsOperator = sheetsOperator;
             this.CanShouAll = ShouAll;
             DayOfTheWeek = setedDey; 
-            sheetsOperator.SetGrupData();
+            sheetsOperator.SetData();
             InitializeComponent();
 
         }
@@ -32,6 +32,22 @@ namespace Fntt.Visual
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            SetTitle();
+
+            if (CanShouAll)
+            {
+                listViweData.ItemsSource = TrasformeLesons( sheetsOperator.GetWeekLesons());
+            }
+            else
+            {
+                listViweData.ItemsSource = TrasformeLesons(sheetsOperator.GetDayLesons(DayOfTheWeek - 1));
+            }
+
+        }
+
+        public void SetTitle()
+        {
             switch (DayOfTheWeek)
             {
                 case 1:
@@ -57,16 +73,11 @@ namespace Fntt.Visual
                     break;
             }
 
-           
+            if (DayOfTheWeek == (int)DateTime.Now.DayOfWeek)
+            {
+                ToolbarString.Text = "Сегодня";
+            }
 
-            if (CanShouAll)
-            {
-                listViweData.ItemsSource = TrasformeLesons( sheetsOperator.GetWeekLesons());
-            }
-            else
-            {
-                listViweData.ItemsSource = TrasformeLesons(sheetsOperator.GetDayLesons(DayOfTheWeek - 1));
-            }
 
         }
 

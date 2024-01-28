@@ -19,8 +19,8 @@
             <StackLayout  x:Name="UserType">
                 <Picker  x:Name = "UserTypePicker" Title="Тип пользователя" SelectedIndexChanged="UserTypePicked">
                     <Picker.Items>
-                        <x:String>Учитель</x:String>
                         <x:String>Ученик</x:String>
+                        <x:String>Учитель</x:String>
                     </Picker.Items>
                 </Picker>
             </StackLayout>

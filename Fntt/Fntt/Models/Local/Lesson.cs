@@ -10,6 +10,8 @@ namespace Fntt.Models.Local
         public string TransformedName {  get; set; }
         public string Сlassroom { get; set; }
         public string TransformedСlassroom { get; set; }
+        public string GroupName {  get; set; }
+
 
         public string Teacher { get; set; }
         public DateTime StartTime { get; set; }

@@ -9,11 +9,14 @@ namespace Fntt
 {
     public partial class App : Application
     {
+        public SheetsOperator sheetsOperator { get; set; }
+
         public App()
         {
             InitializeComponent();
             MainPage = new LoadPage();
-            ((LoadPage)MainPage).StartLoad(new SheetsOperator());
+            sheetsOperator = new SheetsOperator();
+            ((LoadPage)MainPage).StartLoad(sheetsOperator);
 
         }
 
@@ -27,6 +30,10 @@ namespace Fntt
 
         protected override void OnResume()
         {
+            
+            MainPage = new LoadPage();
+            sheetsOperator.sheetsRequester.CheckData();
+            ((LoadPage)MainPage).StartLoad(sheetsOperator);
         }
     }
 }
