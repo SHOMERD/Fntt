@@ -63,7 +63,7 @@ namespace Fntt.Data
 
         public void SetGrupData()
         {
-            SetAktiveСourse(user.Course);                   //поменять место вызова
+            SetAktiveСourse(user.Course);
             SetAktiveGrup(user.Group);
         }
 
@@ -241,8 +241,34 @@ namespace Fntt.Data
 
         public List<Lesson> GetWeekLesons()
         {
-            return activeTimetable.Lessons;
+            List<Lesson> lesons = new List<Lesson>();
+            List<Lesson> Aktive = activeTimetable.Lessons.OrderBy(x => x.DayOfTheWeek).ToList();
+
+            string[] DayArrey = {"_______Понедельник_______", "_______Вторник_______", "_______Среда_______", "_______Четверг_______", "_______Пятница_______", "_______Суббота_______", "_______Воскресенье_______" };
+
+            lesons.Add(new Lesson(){ 
+                StartTime = DateTime.MinValue,
+                Name = DayArrey[0].ToUpper(),
+                DayOfTheWeek = 0,
+            });
+            lesons.Add(Aktive[0]);
+            for (int i = 1; i < Aktive.Count; i++)
+            {
+                if (Aktive[i].DayOfTheWeek > Aktive[i-1].DayOfTheWeek)
+                {
+                    lesons.Add(new Lesson()
+                    {
+                        StartTime = DateTime.MinValue,
+                        Name = DayArrey[Aktive[i].DayOfTheWeek].ToUpper(),
+                        DayOfTheWeek = Aktive[i].DayOfTheWeek,
+                    });
+                }
+                lesons.Add(Aktive[i]);
+            }
+            return lesons;
         }
+
+
 
         public List<Lesson> GetDayLesons(int Day)
         {

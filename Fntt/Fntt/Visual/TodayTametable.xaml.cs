@@ -5,6 +5,7 @@ using Fntt.Data;
 using Fntt.Models;
 using Fntt.Models.Local;
 using Fntt.Visual.BufferPages;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Shapes;
 
@@ -77,6 +78,10 @@ namespace Fntt.Visual
             {
                 ToolbarString.Text = "Сегодня";
             }
+            if (CanShouAll)
+            {
+                ToolbarString.Text = "Всё расписание";
+            }
 
 
         }
@@ -144,7 +149,12 @@ namespace Fntt.Visual
             return lessons;
         }
 
-
-
+        private void ResetData(object sender, EventArgs e)
+        {
+            Preferences.Clear();
+            App.Current.MainPage = new LoadPage();
+            sheetsOperator.sheetsRequester.CheckData();
+            ((LoadPage)App.Current.MainPage).StartLoad(sheetsOperator);
+        }
     }
 }

@@ -16,7 +16,8 @@
                     Clicked="ShouAll"/>
 
 
-        <ToolbarItem Text="+"
+        <ToolbarItem Text="↺"
+                     Clicked="ResetData"
                     />
     </ContentPage.ToolbarItems>
 
