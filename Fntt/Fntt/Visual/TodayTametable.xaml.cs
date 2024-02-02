@@ -23,7 +23,6 @@ namespace Fntt.Visual
             this.sheetsOperator = sheetsOperator;
             this.CanShouAll = ShouAll;
             DayOfTheWeek = setedDey; 
-            sheetsOperator.SetData();
             InitializeComponent();
 
         }

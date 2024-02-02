@@ -26,9 +26,6 @@ namespace Fntt.Data
         {
             sheetsRequester = new SheetsRequester();
             bool userExists = UploudeUser();
-
-
-
         }
         
 

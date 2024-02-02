@@ -69,7 +69,8 @@ namespace Fntt.Visual
         }
 
         public void ChagePage()
-        {
+        {            
+            
             int userStatus = sheetsOperator.CheckUser();
 
             if (userStatus == -1)
@@ -78,7 +79,8 @@ namespace Fntt.Visual
             }
             else if (userStatus == 1 || userStatus == 0)
             {
-                 new CarouselCreater(sheetsOperator, (int)DateTime.Now.DayOfWeek);
+                sheetsOperator.SetData();
+                new CarouselCreater(sheetsOperator, (int)DateTime.Now.DayOfWeek);
             }
         }
 
