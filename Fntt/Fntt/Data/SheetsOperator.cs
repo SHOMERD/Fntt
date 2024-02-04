@@ -30,14 +30,22 @@ namespace Fntt.Data
         
 
 
-        public async void SetData()
+        public async Task SetData()
         {
             if (user.UsetType == 0)
             {
-                if ((await GetСourseNames()).Contains(user.Course) && (await GetGrupsNames(user.Course)).Contains(user.Group))
+                if ((await GetСourseNames()).Contains(user.Course))
                 {
                     SetAktiveСourse(user.Course);
-                    SetAktiveGrup(user.Group);
+                    if ( (await GetGrupsNames(user.Course)).Contains(user.Group))
+                    {
+                        SetAktiveGrup(user.Group);
+                    }
+                    else
+                    {
+                        Preferences.Clear("UserData");
+                        App.Current.MainPage = new UserForm(this);
+                    }
                 }
                 else
                 {
