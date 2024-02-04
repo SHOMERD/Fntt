@@ -53,17 +53,23 @@ namespace Fntt.Data
 
         public SheetsRequester()
         {
+            RestartSheetReqester();
+        }
+
+
+
+        public void RestartSheetReqester()
+        {
             DataAccepted = false;
             dataStatus = -1000;
             CheckData();
-            
-
         }
 
         public async void CheckData()
         {
+            dataStatus = -1000;
             var current = Connectivity.NetworkAccess;
-
+            
             if (current == NetworkAccess.Internet)
             {
                 dataStatus = 0;
@@ -110,13 +116,13 @@ namespace Fntt.Data
 
 
 
-        public async Task<bool> UpdateData()
+        public async void UpdateData()
         {
             List<ResponseModel> sheetRespone = await SheetsRequeste("0");
             allSheets = sheetRespone;
             Preferences.Set("AllSheetsCash", JsonConvert.SerializeObject(sheetRespone));
             dataStatus = 1;
-            return true;
+
 
         }
 

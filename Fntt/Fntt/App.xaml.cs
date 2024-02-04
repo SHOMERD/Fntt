@@ -32,7 +32,7 @@ namespace Fntt
         {
             
             MainPage = new LoadPage();
-            sheetsOperator.sheetsRequester.CheckData();
+            sheetsOperator.sheetsRequester.RestartSheetReqester();
             ((LoadPage)MainPage).StartLoad(sheetsOperator);
         }
     }
