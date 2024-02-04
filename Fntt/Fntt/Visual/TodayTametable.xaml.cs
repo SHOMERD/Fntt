@@ -152,7 +152,7 @@ namespace Fntt.Visual
         {
             Preferences.Clear();
             App.Current.MainPage = new LoadPage();
-            sheetsOperator.sheetsRequester.CheckData();
+            sheetsOperator.sheetsRequester.RestartSheetReqester();
             ((LoadPage)App.Current.MainPage).StartLoad(sheetsOperator);
         }
     }

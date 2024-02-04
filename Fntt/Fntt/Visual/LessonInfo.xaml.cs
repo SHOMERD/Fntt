@@ -28,7 +28,12 @@ namespace Fntt.Visual
 
         private async void LessonСlassroom_Clicked(object sender, EventArgs e)
         {
-            await Launcher.OpenAsync(new Uri(Lesson.Сlassroom));
+            try
+            {
+                await Launcher.OpenAsync(new Uri(Lesson.Сlassroom));
+            }
+            catch (Exception) { Console.WriteLine("Not URL"); } 
+            
         }
     }
 }

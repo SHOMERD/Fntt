@@ -27,7 +27,7 @@ namespace Fntt.Visual
         public void StartLoad(SheetsOperator sheetsOperator)
         {
             this.sheetsOperator = sheetsOperator;
-            ChekData(-1000);
+            //this.sheetsOperator.sheetsRequester.RestartSheetReqester();
         }
 
 
@@ -48,7 +48,7 @@ namespace Fntt.Visual
             {
                 if (!await DisplayAlert("Внимание", "Возможно данные устарели(нет соиденения)", "Понимаю", "Попробовать обновить данные"))
                 {
-                    sheetsOperator.sheetsRequester.CheckData();
+                    sheetsOperator.sheetsRequester.RestartSheetReqester();
                 }
                 else
                 {
@@ -62,13 +62,13 @@ namespace Fntt.Visual
                 {
                     Application.Current.Quit();
                 }
-                else { sheetsOperator.sheetsRequester.CheckData(); }
+                else { sheetsOperator.sheetsRequester.RestartSheetReqester(); }
             }
 
 
         }
 
-        public void ChagePage()
+        public async void ChagePage()
         {            
             
             int userStatus = sheetsOperator.CheckUser();
@@ -79,7 +79,7 @@ namespace Fntt.Visual
             }
             else if (userStatus == 1 || userStatus == 0)
             {
-                sheetsOperator.SetData();
+                await sheetsOperator.SetData();
                 new CarouselCreater(sheetsOperator, (int)DateTime.Now.DayOfWeek);
             }
         }
