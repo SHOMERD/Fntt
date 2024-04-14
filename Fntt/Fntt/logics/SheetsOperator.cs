@@ -9,10 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using static Google.Apis.Requests.BatchRequest;
 
 
 
-namespace Fntt.Data
+namespace Fntt.Logics
 {
     public class SheetsOperator
     {
@@ -128,6 +129,8 @@ namespace Fntt.Data
         {
             DisplayedData group = null;
 
+            aktiveCourse.timetable = aktiveCourse.timetable.Where(x => x[0].ToString() != "Дни").ToList();
+
             for (int i = 1; i < aktiveCourse.timetable[0].Count; i++)
             {
                 if (aktiveCourse.timetable[0][i].ToString() == user.Group)
@@ -145,9 +148,9 @@ namespace Fntt.Data
                             Name = aktiveCourse.timetable[s][i].ToString(),
                             Teacher = aktiveCourse.timetable[s][i + 1].ToString(),
                             Сlassroom = aktiveCourse.timetable[s][i + 2].ToString(),
-                            StartTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][1].ToString(), true),
-                            EndTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][1].ToString(), false),
-                            DayOfTheWeek = (s - 2) / 6
+                            StartTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][2].ToString(), true),
+                            EndTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][2].ToString(), false),
+                            Date = ((DateTime)aktiveCourse.timetable[s - ((s - 1) % 6)][1]).AddDays(1)
                         });
                     }
                     activeTimetable = group;
@@ -221,7 +224,6 @@ namespace Fntt.Data
             }
         }
 
-
         public DateTime SrtingToTimeConvertor(string stringTime, bool IsFerst)
         {
             int h;
@@ -247,41 +249,41 @@ namespace Fntt.Data
         public List<Lesson> GetWeekLesons()
         {
             List<Lesson> lesons = new List<Lesson>();
-            List<Lesson> Aktive = activeTimetable.Lessons.OrderBy(x => x.DayOfTheWeek).ToList();
+            //List<Lesson> Aktive = activeTimetable.Lessons.OrderBy(x => x.Date).ToList();
 
-            string[] DayArrey = {"_______Понедельник_______", "_______Вторник_______", "_______Среда_______", "_______Четверг_______", "_______Пятница_______", "_______Суббота_______", "_______Воскресенье_______" };
+            //string[] DayArrey = {"_______Понедельник_______", "_______Вторник_______", "_______Среда_______", "_______Четверг_______", "_______Пятница_______", "_______Суббота_______", "_______Воскресенье_______" };
 
-            lesons.Add(new Lesson(){ 
-                StartTime = DateTime.MinValue,
-                Name = DayArrey[0].ToUpper(),
-                DayOfTheWeek = 0,
-            });
-            lesons.Add(Aktive[0]);
-            for (int i = 1; i < Aktive.Count; i++)
-            {
-                if (Aktive[i].DayOfTheWeek > Aktive[i-1].DayOfTheWeek)
-                {
-                    lesons.Add(new Lesson()
-                    {
-                        StartTime = DateTime.MinValue,
-                        Name = DayArrey[Aktive[i].DayOfTheWeek].ToUpper(),
-                        DayOfTheWeek = Aktive[i].DayOfTheWeek,
-                    });
-                }
-                lesons.Add(Aktive[i]);
-            }
+            //lesons.Add(new Lesson(){ 
+            //    StartTime = DateTime.MinValue,
+            //    Name = DayArrey[0].ToUpper(),
+            //    DayOfTheWeek = 0,
+            //});
+            //lesons.Add(Aktive[0]);
+            //for (int i = 1; i < Aktive.Count; i++)
+            //{
+            //    if (Aktive[i].DayOfTheWeek > Aktive[i-1].DayOfTheWeek)
+            //    {
+            //        lesons.Add(new Lesson()
+            //        {
+            //            StartTime = DateTime.MinValue,
+            //            Name = DayArrey[Aktive[i].DayOfTheWeek].ToUpper(),
+            //            DayOfTheWeek = Aktive[i].DayOfTheWeek,
+            //        });
+            //    }
+            //    lesons.Add(Aktive[i]);
+            //}
             return lesons;
         }
 
 
 
-        public List<Lesson> GetDayLesons(int Day)
+        public List<Lesson> GetDayLesons(DateTime dateTime)
         {
 
             List<Lesson> lessons = new List<Lesson>();
             for (int i = 0; i < activeTimetable.Lessons.Count; i++)
             {
-                if (activeTimetable.Lessons[i].DayOfTheWeek == Day)
+                if (activeTimetable.Lessons[i].Date.Date == dateTime.Date)
                 {
                     lessons.Add(activeTimetable.Lessons[i]);
                 }
@@ -328,9 +330,12 @@ namespace Fntt.Data
                 Lessons = new List<Lesson>() { }
             };
             teacherTimetable.Name = teacherName;
+            
 
             for (int d = 0; d < allSheets.Count; d++)
             {
+                allSheets[d].timetable = allSheets[d].timetable.Where(x => x[0].ToString() != "Дни").ToList();
+
                 for (int i = 1; i < allSheets[d].timetable[0].Count; i++)
                 {
                     if (!string.IsNullOrEmpty(allSheets[d].timetable[0][i].ToString()))
@@ -345,9 +350,9 @@ namespace Fntt.Data
                                     GroupName = allSheets[d].timetable[0][i].ToString(),
                                     Teacher = allSheets[d].timetable[s][i + 1].ToString(),
                                     Сlassroom = allSheets[d].timetable[s][i + 2].ToString(),
-                                    StartTime = SrtingToTimeConvertor(allSheets[d].timetable[s][1].ToString(), true),
-                                    EndTime = SrtingToTimeConvertor(allSheets[d].timetable[s][1].ToString(), false),
-                                    DayOfTheWeek = (s - 2) / 6
+                                    StartTime = SrtingToTimeConvertor(allSheets[d].timetable[s][2].ToString(), true),
+                                    EndTime = SrtingToTimeConvertor(allSheets[d].timetable[s][2].ToString(), false),
+                                    Date = ((DateTime)allSheets[d].timetable[s - ((s - 1) % 6)][1]).AddDays(1)
                                 });
                             }
 
@@ -356,7 +361,6 @@ namespace Fntt.Data
 
                 }
             }
-
 
 
             activeTimetable = LessonShaker(teacherTimetable);
@@ -374,7 +378,7 @@ namespace Fntt.Data
                 bool Flag = true;
                 for (int s = 0; s < lessons.Count; s++)
                 {
-                    if (lessons[s].Name == sorted[i].Name && lessons[s].StartTime == sorted[i].StartTime && lessons[s].Сlassroom == sorted[i].Сlassroom && lessons[s].DayOfTheWeek == sorted[i].DayOfTheWeek)
+                    if (lessons[s].Name == sorted[i].Name && lessons[s].StartTime == sorted[i].StartTime && lessons[s].Сlassroom == sorted[i].Сlassroom && lessons[s].Date == sorted[i].Date)
                     {
                         lessons[s].GroupName = lessons[s].GroupName + " и " +sorted[i].GroupName;
                         Flag = false;

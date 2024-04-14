@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
-using Fntt.Data;
+using Fntt.Logics;
 using Fntt.Models;
 using Fntt.Models.Local;
 using Fntt.Visual.BufferPages;
@@ -13,17 +13,18 @@ namespace Fntt.Visual
 {
     public partial class TodayTametable : ContentPage
     {
-        public int DayOfTheWeek;
+        public DateTime DayOfTheWeek;
         public bool CanShouAll;
         SheetsOperator sheetsOperator;
 
 
-        public TodayTametable(SheetsOperator sheetsOperator, int setedDey, bool ShouAll = false)
+        public TodayTametable(SheetsOperator sheetsOperator, DateTime setedDey, bool ShouAll = false)
         {
             this.sheetsOperator = sheetsOperator;
             this.CanShouAll = ShouAll;
             DayOfTheWeek = setedDey; 
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
 
         }
 
@@ -41,39 +42,39 @@ namespace Fntt.Visual
             }
             else
             {
-                listViweData.ItemsSource = TrasformeLesons(sheetsOperator.GetDayLesons(DayOfTheWeek - 1));
+                listViweData.ItemsSource = TrasformeLesons(sheetsOperator.GetDayLesons(DayOfTheWeek));
             }
 
         }
 
         public void SetTitle()
         {
-            switch (DayOfTheWeek)
-            {
-                case 1:
-                    ToolbarString.Text = "Понедельник";
-                    break;
-                case 2:
-                    ToolbarString.Text = "Вторник";
-                    break;
-                case 3:
-                    ToolbarString.Text = "Среда";
-                    break;
-                case 4:
-                    ToolbarString.Text = "Четверг";
-                    break;
-                case 5:
-                    ToolbarString.Text = "Пятница";
-                    break;
-                case 6:
-                    ToolbarString.Text = "Суббота";
-                    break;
-                case 0:
-                    ToolbarString.Text = "Воскресенье";
-                    break;
-            }
-
-            if (DayOfTheWeek == (int)DateTime.Now.DayOfWeek)
+            //switch ((int)DayOfTheWeek.DayOfWeek)
+            //{
+            //    case 1:
+            //        ToolbarString.Text = "Понедельник";
+            //        break;
+            //    case 2:
+            //        ToolbarString.Text = "Вторник";
+            //        break;
+            //    case 3:
+            //        ToolbarString.Text = "Среда";
+            //        break;
+            //    case 4:
+            //        ToolbarString.Text = "Четверг";
+            //        break;
+            //    case 5:
+            //        ToolbarString.Text = "Пятница";
+            //        break;
+            //    case 6:
+            //        ToolbarString.Text = "Суббота";
+            //        break;
+            //    case 0:
+            //        ToolbarString.Text = "Воскресенье";
+            //        break;
+            //}
+            ToolbarString.Text = DayOfTheWeek.ToShortDateString();
+            if (DayOfTheWeek.Date == DateTime.Now.Date)
             {
                 ToolbarString.Text = "Сегодня";
             }
@@ -87,7 +88,7 @@ namespace Fntt.Visual
 
         async void ShouAll(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new TodayTametable( sheetsOperator ,0, true));
+            await Navigation.PushAsync(new TodayTametable( sheetsOperator ,DateTime.MinValue, true));
         }
 
         async void OnListItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -117,12 +118,7 @@ namespace Fntt.Visual
 
         public void ChangeDay(int S)
         {
-            DayOfTheWeek += S;
-            if (DayOfTheWeek < 0)
-            {
-                for (; DayOfTheWeek < 0; DayOfTheWeek += 7) ;
-            }
-            DayOfTheWeek = (DayOfTheWeek + 7) % 7;
+            DayOfTheWeek = DayOfTheWeek.AddDays(S);
             OnAppearing();
         }
 

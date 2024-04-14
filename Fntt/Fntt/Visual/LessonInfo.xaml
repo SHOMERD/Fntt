@@ -25,6 +25,10 @@
                 Text=""
                 VerticalOptions="Center" 
                 HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="DateString"
+                Text=""
+                VerticalOptions="Center" 
+                HorizontalOptions="CenterAndExpand" />
 
 
 

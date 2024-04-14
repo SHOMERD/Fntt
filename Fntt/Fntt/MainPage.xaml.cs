@@ -1,5 +1,5 @@
 ﻿
-using Fntt.Data;
+using Fntt.Logics;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

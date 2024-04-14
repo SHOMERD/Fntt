@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
-namespace Fntt.Data
+namespace Fntt.Logics
 {
      public class CarouselCreater
     {
-        public CarouselCreater(SheetsOperator sheetsOperator, int setedDey)
+        public CarouselCreater(SheetsOperator sheetsOperator, DateTime setedDey)
         {
             TodayTametable todayTametable = new TodayTametable(sheetsOperator, setedDey);
             CarouselPage CP = new CarouselPage();

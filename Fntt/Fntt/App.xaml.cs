@@ -1,4 +1,4 @@
-﻿using Fntt.Data;
+﻿using Fntt.Logics;
 using Fntt.Visual;
 using System;
 using Fntt.Visual.BufferPages;

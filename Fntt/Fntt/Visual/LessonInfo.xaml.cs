@@ -22,7 +22,8 @@ namespace Fntt.Visual
             TecherName.Text = Lesson.Teacher;
             GroupName.Text = lesson.GroupName;
             LessonСlassroom.Text = lesson.Сlassroom;
-            LessonTimeString.Text = lesson.StartTimeString + " - " + lesson.EndTimeString; 
+            LessonTimeString.Text = lesson.StartTimeString + " - " + lesson.EndTimeString;
+            DateString.Text = lesson.Date.ToShortDateString();
 
         }
 

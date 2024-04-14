@@ -1,4 +1,4 @@
-﻿using Fntt.Data;
+﻿using Fntt.Logics;
 using Fntt.Visual.BufferPages;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace Fntt.Visual
         public LoadPage()
         {
             InitializeComponent();
-            
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         public void StartLoad(SheetsOperator sheetsOperator)
@@ -80,7 +80,7 @@ namespace Fntt.Visual
             else if (userStatus == 1 || userStatus == 0)
             {
                 await sheetsOperator.SetData();
-                new CarouselCreater(sheetsOperator, (int)DateTime.Now.DayOfWeek);
+                new CarouselCreater(sheetsOperator, DateTime.Now);
             }
         }
 

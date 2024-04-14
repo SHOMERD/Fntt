@@ -1,4 +1,4 @@
-﻿using Fntt.Data;
+﻿using Fntt.Logics;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -63,7 +63,7 @@ namespace Fntt.Visual
         {
             sheetsOperator.SetUser(UserTypePicker.SelectedIndex, (string)TeacherNamePicker.SelectedItem, (string)CoursePicker.SelectedItem, (string)GroupPicker.SelectedItem);
             sheetsOperator.SetData();
-            new CarouselCreater(sheetsOperator, (int)DateTime.Now.DayOfWeek);
+            new CarouselCreater(sheetsOperator, DateTime.Now);
         }
 
         private void UserTypePicked(object sender, EventArgs e)
