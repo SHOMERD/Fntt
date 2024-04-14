@@ -49,38 +49,40 @@ namespace Fntt.Visual
 
         public void SetTitle()
         {
-            //switch ((int)DayOfTheWeek.DayOfWeek)
-            //{
-            //    case 1:
-            //        ToolbarString.Text = "Понедельник";
-            //        break;
-            //    case 2:
-            //        ToolbarString.Text = "Вторник";
-            //        break;
-            //    case 3:
-            //        ToolbarString.Text = "Среда";
-            //        break;
-            //    case 4:
-            //        ToolbarString.Text = "Четверг";
-            //        break;
-            //    case 5:
-            //        ToolbarString.Text = "Пятница";
-            //        break;
-            //    case 6:
-            //        ToolbarString.Text = "Суббота";
-            //        break;
-            //    case 0:
-            //        ToolbarString.Text = "Воскресенье";
-            //        break;
-            //}
-            ToolbarString.Text = DayOfTheWeek.ToShortDateString();
+            switch ((int)DayOfTheWeek.DayOfWeek)
+            {
+                case 1:
+                    ToolbarString.Text = "Понедельник";
+                    break;
+                case 2:
+                    ToolbarString.Text = "Вторник";
+                    break;
+                case 3:
+                    ToolbarString.Text = "Среда";
+                    break;
+                case 4:
+                    ToolbarString.Text = "Четверг";
+                    break;
+                case 5:
+                    ToolbarString.Text = "Пятница";
+                    break;
+                case 6:
+                    ToolbarString.Text = "Суббота";
+                    break;
+                case 0:
+                    ToolbarString.Text = "Воскресенье";
+                    break;
+            }
+            ToolbarDateString.Text = DayOfTheWeek.ToShortDateString();
             if (DayOfTheWeek.Date == DateTime.Now.Date)
             {
                 ToolbarString.Text = "Сегодня";
             }
             if (CanShouAll)
             {
+                ToolbarDateString.Text = "";
                 ToolbarString.Text = "Всё расписание";
+
             }
 
 

@@ -2,68 +2,82 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Fntt.Visual.TodayTametable"
-             
              >
 
-    <ContentPage.ToolbarItems>
+    <StackLayout BackgroundColor="#1E1E1E">
 
-        <ToolbarItem x:Name="ToolbarString"
-                    Text="Чтото работает неправельно" 
+        <StackLayout Orientation="Horizontal" BackgroundColor="#5b0000">
+            
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Orientation="Horizontal">
+                <Label x:Name="ToolbarString"
+                        Text="Чтото работает неправельно" 
+                        BackgroundColor="Transparent"
+                       TextColor="LightGray"
+                            />
+                <Label x:Name="ToolbarDateString" 
+                       BackgroundColor="Transparent"
+                       TextColor="LightGray"
+                       />
+            </StackLayout>
+            
+            <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="CenterAndExpand">
+            <Button  Text="❮O❯"
+                        Clicked="ShouAll"
+                         BackgroundColor="Transparent"
+                        TextColor="LightGray"
                      />
-        <ToolbarItem/>
-
-        <ToolbarItem Text="❮O❯"
-                    Clicked="ShouAll"/>
-
-
-        <ToolbarItem Text="↺"
-                     Clicked="ResetData"
-                    />
-    </ContentPage.ToolbarItems>
-
+            <Button Text="↺"
+                        Clicked="ResetData"
+                        BackgroundColor="Transparent"
+                        TextColor="LightGray"
+                        />
+        </StackLayout>
+    </StackLayout>
 
     <ListView  x:Name="listViweData"
               Margin="10"
               ItemSelected="OnListItemSelected"
                
                >
-        
+
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell >
                     <StackLayout Orientation="Vertical">
-                        <Frame  BorderColor="Salmon"
-                                Padding="10"
-                            >
-                        <StackLayout Margin="0,0,0,0"
-                                 Orientation="Horizontal"
-                                 HorizontalOptions="FillAndExpand"
-                                     >
-                            
-                            <Label Text="{Binding StartTimeString}"
-                               VerticalTextAlignment="Center"
-                               HorizontalOptions="StartAndExpand" 
-                                   TextColor="Navy"/>
+                            <Frame  BorderColor="#5b0000"
+                                    Padding="10"
+                                 BackgroundColor="#5b0000"
+                                >
+                            <StackLayout Margin="0,0,0,0"
+                                     Orientation="Horizontal"
+                                     HorizontalOptions="FillAndExpand"
+                                        
+                                         >
+
+                                <Label Text="{Binding StartTimeString}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalOptions="StartAndExpand" 
+                                       TextColor="LightGray"/>
                                 <Label Text="{Binding TransformedName}"
-                               VerticalTextAlignment="Center"
-                               HorizontalOptions="CenterAndExpand" 
-                                   TextColor="Navy"
-                                   MaxLines="1"/>
+                                   VerticalTextAlignment="Center"
+                                   HorizontalOptions="CenterAndExpand" 
+                                       TextColor="LightGray"
+                                       MaxLines="1"/>
                                 <Label Text="{Binding TransformedСlassroom}"
-                                VerticalTextAlignment="Center"
-                                HorizontalOptions="EndAndExpand"
-                                   TextColor="Navy"
-                                   />
-                            <StackLayout Orientation ="Horizontal">
+                                    VerticalTextAlignment="Center"
+                                    HorizontalOptions="EndAndExpand"
+                                       TextColor="LightGray"
+                                       MaxLines="1"
+                                       />
+                                <StackLayout Orientation ="Horizontal">
+                                </StackLayout>
                             </StackLayout>
-                        </StackLayout>
                         </Frame>
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
-
-
+    </StackLayout>
 </ContentPage>
     

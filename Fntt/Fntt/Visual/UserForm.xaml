@@ -3,21 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Fntt.Visual.UserForm">
     <ContentPage.Content>
+        <StackLayout BackgroundColor="#1E1E1E">
         <StackLayout HorizontalOptions="FillAndExpand"
-                     VerticalOptions="CenterAndExpand">
+                     VerticalOptions="CenterAndExpand" >
             
             <Label Text="Tребуется определиться в себе"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center"
                    FontSize="Large"
+                   TextColor="LightGray"
                    />
             <Label></Label>
             <Label></Label>
             <Label></Label>
 
 
-            <StackLayout  x:Name="UserType">
-                <Picker  x:Name = "UserTypePicker" Title="Тип пользователя" SelectedIndexChanged="UserTypePicked">
+                <StackLayout  x:Name="UserType" >
+                    <Picker  x:Name = "UserTypePicker" TitleColor="LightGray" Title="Тип пользователя" TextColor="LightGray" SelectedIndexChanged="UserTypePicked">
                     <Picker.Items>
                         <x:String>Ученик</x:String>
                         <x:String>Учитель</x:String>
@@ -26,14 +28,14 @@
             </StackLayout>
 
             <StackLayout  x:Name="TeacherName" IsVisible="false">
-                <Picker  x:Name = "TeacherNamePicker" Title="Ваше имя(выбор из списка)" SelectedIndexChanged ="TeacherNamePicked">
+                    <Picker  x:Name = "TeacherNamePicker" Title="Ваше имя(выбор из списка)" TitleColor="LightGray" TextColor="LightGray" SelectedIndexChanged ="TeacherNamePicked">
                     <Picker.Items>
                     </Picker.Items>
                 </Picker>
             </StackLayout>
 
             <StackLayout  x:Name="Course" IsVisible="false">
-                <Picker  x:Name = "CoursePicker" Title="Выбор курса" SelectedIndexChanged="CoursePicked">
+                    <Picker  x:Name = "CoursePicker" Title="Выбор курса" TextColor="LightGray" TitleColor="LightGray" SelectedIndexChanged="CoursePicked">
                     <Picker.Items>
                     </Picker.Items>
                 </Picker>
@@ -41,7 +43,7 @@
 
 
             <StackLayout  x:Name="Group" IsVisible="false">
-                <Picker  x:Name = "GroupPicker" Title="Выбор группы" SelectedIndexChanged ="GroupPicked">
+                    <Picker  x:Name = "GroupPicker" Title="Выбор группы"  TextColor="LightGray" TitleColor="LightGray" SelectedIndexChanged ="GroupPicked">
                     <Picker.Items>
                     </Picker.Items>
                 </Picker>
@@ -63,6 +65,7 @@
                         BorderColor="AliceBlue"
                     ></Button>
             </StackLayout>
+        </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

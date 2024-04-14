@@ -13,6 +13,7 @@ namespace Fntt.Logics
         {
             TodayTametable todayTametable = new TodayTametable(sheetsOperator, setedDey);
             CarouselPage CP = new CarouselPage();
+            NavigationPage.SetHasNavigationBar(CP, false);
             CP.Children.Add(new Minus1());
             CP.Children.Add(todayTametable);
             CP.Children.Add(new Plas1());

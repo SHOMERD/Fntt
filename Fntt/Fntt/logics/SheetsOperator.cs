@@ -249,29 +249,31 @@ namespace Fntt.Logics
         public List<Lesson> GetWeekLesons()
         {
             List<Lesson> lesons = new List<Lesson>();
-            //List<Lesson> Aktive = activeTimetable.Lessons.OrderBy(x => x.Date).ToList();
+            List<Lesson> Aktive = activeTimetable.Lessons.OrderBy(x => x.Date).ToList();
 
-            //string[] DayArrey = {"_______Понедельник_______", "_______Вторник_______", "_______Среда_______", "_______Четверг_______", "_______Пятница_______", "_______Суббота_______", "_______Воскресенье_______" };
+            string[] DayArrey = {"_______Воскресенье_______", "_______Понедельник_______", "_______Вторник_______", "_______Среда_______", "_______Четверг_______", "_______Пятница_______", "_______Суббота_______" };
 
-            //lesons.Add(new Lesson(){ 
-            //    StartTime = DateTime.MinValue,
-            //    Name = DayArrey[0].ToUpper(),
-            //    DayOfTheWeek = 0,
-            //});
-            //lesons.Add(Aktive[0]);
-            //for (int i = 1; i < Aktive.Count; i++)
-            //{
-            //    if (Aktive[i].DayOfTheWeek > Aktive[i-1].DayOfTheWeek)
-            //    {
-            //        lesons.Add(new Lesson()
-            //        {
-            //            StartTime = DateTime.MinValue,
-            //            Name = DayArrey[Aktive[i].DayOfTheWeek].ToUpper(),
-            //            DayOfTheWeek = Aktive[i].DayOfTheWeek,
-            //        });
-            //    }
-            //    lesons.Add(Aktive[i]);
-            //}
+            lesons.Add(new Lesson()
+            {
+                StartTime = DateTime.MinValue,
+                Name = DayArrey[(int)Aktive[0].Date.DayOfWeek].ToUpper(),
+                Date = DateTime.Now
+            });
+            lesons.Add(Aktive[0]);
+            for (int i = 1; i < Aktive.Count; i++)
+            {
+                if (Aktive[i].Date.DayOfWeek != Aktive[i - 1].Date.DayOfWeek)
+                {
+                    lesons.Add(new Lesson()
+                    {
+                        StartTime = DateTime.MinValue,
+                        Сlassroom = Aktive[i].Date.ToShortDateString(),
+                        Name = DayArrey[(int)Aktive[i].Date.DayOfWeek].ToUpper(),
+                        Date = Aktive[i].Date,
+                    });
+                }
+                lesons.Add(Aktive[i]);
+            }
             return lesons;
         }
 

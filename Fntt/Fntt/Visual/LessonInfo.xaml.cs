@@ -16,6 +16,7 @@ namespace Fntt.Visual
         Lesson Lesson { get; set; }
         public LessonInfo(Lesson lesson)
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
             Lesson = lesson;
             LessonName.Text = lesson.Name;
