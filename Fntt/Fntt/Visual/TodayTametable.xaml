@@ -27,6 +27,7 @@
                         TextColor="LightGray"
                      />
             <Button Text="↺"
+                        FontSize="Large"
                         Clicked="ResetData"
                         BackgroundColor="Transparent"
                         TextColor="LightGray"

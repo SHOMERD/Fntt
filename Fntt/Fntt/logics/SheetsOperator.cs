@@ -28,7 +28,16 @@ namespace Fntt.Logics
             sheetsRequester = new SheetsRequester();
             bool userExists = UploudeUser();
         }
-        
+
+
+        public void Clear()
+        {
+            aktiveCourse = null;
+            activeTimetable = null;
+            user = null;
+
+        }
+
 
 
         public async Task SetData()
@@ -143,15 +152,20 @@ namespace Fntt.Logics
 
                     for (int s = 2; s < aktiveCourse.timetable.Count; s++)
                     {
-                        group.Lessons.Add(new Lesson()
+                        try
                         {
-                            Name = aktiveCourse.timetable[s][i].ToString(),
-                            Teacher = aktiveCourse.timetable[s][i + 1].ToString(),
-                            Сlassroom = aktiveCourse.timetable[s][i + 2].ToString(),
-                            StartTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][2].ToString(), true),
-                            EndTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][2].ToString(), false),
-                            Date = ((DateTime)aktiveCourse.timetable[s - ((s - 1) % 6)][1]).AddDays(1)
-                        });
+                            group.Lessons.Add(new Lesson()
+                            {
+                                Name = aktiveCourse.timetable[s][i].ToString(),
+                                Teacher = aktiveCourse.timetable[s][i + 1].ToString(),
+                                Сlassroom = aktiveCourse.timetable[s][i + 2].ToString(),
+                                StartTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][2].ToString(), true),
+                                EndTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][2].ToString(), false),
+                                Date = ((DateTime)aktiveCourse.timetable[s - ((s - 1) % 6)][1]).AddDays(1)
+                            });
+                        }
+                        catch (Exception){}
+                       
                     }
                     activeTimetable = group;
                     return true;
@@ -224,7 +238,7 @@ namespace Fntt.Logics
             }
         }
 
-        public DateTime SrtingToTimeConvertor(string stringTime, bool IsFerst)
+        static public DateTime SrtingToTimeConvertor(string stringTime, bool IsFerst)
         {
             int h;
             int m;
@@ -346,18 +360,23 @@ namespace Fntt.Logics
                         {
                             if (allSheets[d].timetable[s][i + 1].ToString().Contains(teacherName))
                             {
-                                teacherTimetable.Lessons.Add(new Lesson()
+                                try
                                 {
-                                    Name = allSheets[d].timetable[s][i].ToString(),
-                                    GroupName = allSheets[d].timetable[0][i].ToString(),
-                                    Teacher = allSheets[d].timetable[s][i + 1].ToString(),
-                                    Сlassroom = allSheets[d].timetable[s][i + 2].ToString(),
-                                    StartTime = SrtingToTimeConvertor(allSheets[d].timetable[s][2].ToString(), true),
-                                    EndTime = SrtingToTimeConvertor(allSheets[d].timetable[s][2].ToString(), false),
-                                    Date = ((DateTime)allSheets[d].timetable[s - ((s - 1) % 6)][1]).AddDays(1)
-                                });
+                                    teacherTimetable.Lessons.Add(new Lesson()
+                                    {
+                                        Name = allSheets[d].timetable[s][i].ToString(),
+                                        GroupName = allSheets[d].timetable[0][i].ToString(),
+                                        Teacher = allSheets[d].timetable[s][i + 1].ToString(),
+                                        Сlassroom = allSheets[d].timetable[s][i + 2].ToString(),
+                                        StartTime = SrtingToTimeConvertor(allSheets[d].timetable[s][2].ToString(), true),
+                                        EndTime = SrtingToTimeConvertor(allSheets[d].timetable[s][2].ToString(), false),
+                                        Date = ((DateTime)allSheets[d].timetable[s - ((s - 1) % 6)][1]).AddDays(1)
+                                    });
+                                }
+                                catch (Exception)
+                                {
+                                }
                             }
-
                         }
                     }
 

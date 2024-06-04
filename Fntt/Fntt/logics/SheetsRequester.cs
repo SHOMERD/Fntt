@@ -87,7 +87,7 @@ namespace Fntt.Logics
         }
 
 
-        public async Task<List<ResponseModel>> SheetsRequeste(string requesType = null, string sheetName = null, string sheetID = null, object referenceObject = null)
+        public static async Task<List<ResponseModel>> SheetsRequeste(string requesType = null, string sheetName = null, string sheetID = null, object referenceObject = null)
         {
 
             HttpClient client = new HttpClient();
