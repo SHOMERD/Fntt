@@ -150,7 +150,8 @@ namespace Fntt.Visual
         {
             Preferences.Clear();
             App.Current.MainPage = new LoadPage();
-            ((LoadPage)App.Current.MainPage).StartLoad(new SheetsOperator());
+            sheetsOperator.sheetsRequester.RestartSheetReqester();
+            ((LoadPage)App.Current.MainPage).StartLoad(sheetsOperator);
         }
     }
 }

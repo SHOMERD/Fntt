@@ -161,7 +161,7 @@ namespace Fntt.Logics
                                 Сlassroom = aktiveCourse.timetable[s][i + 2].ToString(),
                                 StartTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][2].ToString(), true),
                                 EndTime = SrtingToTimeConvertor(aktiveCourse.timetable[s][2].ToString(), false),
-                                Date = ((DateTime)aktiveCourse.timetable[s - ((s - 1) % 6)][1]).AddDays(1)
+                                Date = FindDate(aktiveCourse, s),
                             });
                         }
                         catch (Exception){}
@@ -238,7 +238,7 @@ namespace Fntt.Logics
             }
         }
 
-        static public DateTime SrtingToTimeConvertor(string stringTime, bool IsFerst)
+        public DateTime SrtingToTimeConvertor(string stringTime, bool IsFerst)
         {
             int h;
             int m;
@@ -370,11 +370,11 @@ namespace Fntt.Logics
                                         Сlassroom = allSheets[d].timetable[s][i + 2].ToString(),
                                         StartTime = SrtingToTimeConvertor(allSheets[d].timetable[s][2].ToString(), true),
                                         EndTime = SrtingToTimeConvertor(allSheets[d].timetable[s][2].ToString(), false),
-                                        Date = ((DateTime)allSheets[d].timetable[s - ((s - 1) % 6)][1]).AddDays(1)
+                                        Date = FindDate(allSheets[d], s),
                                     });
                                 }
                                 catch (Exception)
-                                {
+                                {                               
                                 }
                             }
                         }
@@ -387,6 +387,23 @@ namespace Fntt.Logics
             activeTimetable = LessonShaker(teacherTimetable);
 
         }
+
+        public DateTime FindDate(ResponseModel responseModels, int s)
+        {
+            while (s > 0)
+            {
+                try
+                {
+                    return ((DateTime)responseModels.timetable[s][1]).AddDays(1);
+                }
+                catch (Exception)
+                {
+                    s--;
+                }
+            }
+            return DateTime.MinValue;
+        }
+
 
         public DisplayedData LessonShaker(DisplayedData data)
         { 

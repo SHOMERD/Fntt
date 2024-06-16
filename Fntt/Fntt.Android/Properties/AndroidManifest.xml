@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.1.1" package="SHOMERD.fntt" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.1.5" package="fntt.fntt" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="18" android:targetSdkVersion="30" />
-	<application android:label="Fntt.Android" android:theme="@style/MainTheme" android:icon="@mipmap/Tametable"></application>
+	<application android:label="Fntt" android:theme="@style/MainTheme" android:icon="@mipmap/Tametable"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>
