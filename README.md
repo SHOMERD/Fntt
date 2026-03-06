@@ -2,6 +2,7 @@
 ![platform](https://img.shields.io/badge/platform-mobile-blue)
 ![framework](https://img.shields.io/badge/framework-Xamarin.Forms-purple)
 ![database](https://img.shields.io/badge/database-SQLite-lightgrey)
+
 Мобильное приложение для удобного просмотра расписания образовательного учреждения.
 
 Приложение получает данные из **Google Sheets**, используя **Google Apps Script API**, обрабатывает таблицу расписания и показывает пользователю только нужную информацию в удобном интерфейсе.
@@ -11,7 +12,7 @@
 # 📱 Preview
 
 ### UI
-![UI](docs/ui.png)
+![UI](docs/UI.png)
 
 ### Identification
 ![Identification](docs/identification.png)
